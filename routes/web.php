@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Livewire\Admin\CategoryManager;
+use App\Livewire\Admin\Home as AdminHome;
 use App\Livewire\Admin\NomineeManager;
 use App\Livewire\Admin\Results;
 use App\Livewire\Admin\UserManager;
@@ -59,7 +60,8 @@ Route::middleware('auth')->prefix('vote')->name('vote.')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', CategoryManager::class)->name('categories');
+    Route::get('/', AdminHome::class)->name('home');
+    Route::get('/categories', CategoryManager::class)->name('categories');
     Route::get('/nominees', NomineeManager::class)->name('nominees');
     Route::get('/resultats', Results::class)->name('results');
     Route::get('/comptes', UserManager::class)->name('users');

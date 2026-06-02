@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,184 +6,144 @@
 
 :root {
     --bg-primary: #0A0A0B;
-    --bg-card: #111113;
-    --bg-surface: #17171A;
-    --line: #26262C;
-    --gold-main: #D4A843;
-    --gold-light: #E6C46A;
-    --gold-dark: #7A5C18;
+    --bg-card: #101012;
+    --bg-surface: #161619;
+    --line: #23232A;
+    --gold-main: #C9A24B;
+    --gold-light: #E3C878;
+    --gold-dark: #6E5418;
     --offwhite: #ECECEE;
-    --muted: #8A8A93;
+    --muted: #86868F;
 }
 
 @layer base {
-    html {
-        font-size: 16px;
-        -webkit-text-size-adjust: 100%;
-    }
+    html { font-size: 16px; -webkit-text-size-adjust: 100%; }
 
     body {
         @apply bg-bg-primary text-offwhite font-sans antialiased;
         min-height: 100vh;
     }
 
-    h1, h2, h3, h4 {
-        @apply font-semibold text-white;
-        letter-spacing: -0.01em;
+    /* Titres de section/évènement en serif élégant */
+    h1, .display {
+        @apply font-display font-semibold text-white;
+        letter-spacing: 0.01em;
+        line-height: 1.1;
     }
+    h2, h3, h4 { @apply font-sans font-semibold text-white; }
 
-    [x-cloak] {
-        display: none !important;
-    }
+    [x-cloak] { display: none !important; }
 
-    /* Scrollbar discrète */
     * {
         scrollbar-width: thin;
         scrollbar-color: #2c2c33 transparent;
     }
     *::-webkit-scrollbar { width: 8px; height: 8px; }
-    *::-webkit-scrollbar-track { background: transparent; }
-    *::-webkit-scrollbar-thumb { background: #2c2c33; border-radius: 4px; }
+    *::-webkit-scrollbar-thumb { background: #2c2c33; }
     *::-webkit-scrollbar-thumb:hover { background: #3a3a42; }
 }
 
 @layer components {
 
-    /* ----------------------------- Cartes ----------------------------- */
-    .card {
-        @apply bg-bg-card border border-line rounded-xl;
-    }
-    .card-hover {
-        @apply transition-colors duration-150;
-    }
-    .card-hover:hover {
-        border-color: rgba(212, 168, 67, 0.4);
+    /* Petit intitulé éditorial (façon faire-part) */
+    .eyebrow {
+        @apply text-xs font-medium uppercase text-muted;
+        letter-spacing: 0.22em;
     }
 
-    /* ---------------------------- Boutons ----------------------------- */
+    /* Filet doré fin */
+    .rule-gold { height: 1px; background: var(--gold-dark); border: 0; }
+
+    /* ------------------------------ Cartes ---------------------------- */
+    .card {
+        @apply bg-bg-card border border-line;
+    }
+    .card-hover { @apply transition-colors duration-150; }
+    .card-hover:hover { border-color: var(--gold-main); }
+
+    /* --------------------- Tuiles admin (façon caisse) ---------------- */
+    .tile {
+        @apply flex flex-col border border-line bg-bg-card p-7 transition-colors duration-150;
+    }
+    .tile:hover { border-color: var(--gold-main); background: #131316; }
+    .tile-icon {
+        @apply mb-5 flex h-12 w-12 items-center justify-center border border-line text-gold-light;
+    }
+    .tile:hover .tile-icon { border-color: var(--gold-main); }
+    .tile-icon svg { @apply h-6 w-6; }
+
+    /* ----------------------------- Boutons ---------------------------- */
     .btn {
-        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
     }
-    .btn-primary {
-        @apply btn;
-        background: var(--gold-main);
-        color: #0A0A0B;
-    }
+    .btn-primary { @apply btn; background: var(--gold-main); color: #0A0A0B; }
     .btn-primary:hover:not(:disabled) { background: var(--gold-light); }
 
-    .btn-secondary {
-        @apply btn border border-line text-offwhite;
-        background: transparent;
-    }
+    .btn-secondary { @apply btn border border-line text-offwhite; background: transparent; }
     .btn-secondary:hover:not(:disabled) { border-color: var(--gold-main); color: #fff; }
 
-    .btn-danger {
-        @apply btn border text-muted;
-        border-color: var(--line);
-        background: transparent;
-    }
-    .btn-danger:hover:not(:disabled) {
-        border-color: #b04646;
-        color: #e07a7a;
-    }
+    .btn-danger { @apply btn border text-muted; border-color: var(--line); background: transparent; }
+    .btn-danger:hover:not(:disabled) { border-color: #9d4b4b; color: #d98a8a; }
 
-    .btn-sm { @apply px-3 py-1.5 text-xs; }
+    .btn-sm { @apply px-3.5 py-1.5 text-xs; }
 
-    /* État « déjà voté » */
     .btn-voted {
         @apply btn;
-        background: rgba(212, 168, 67, 0.12);
+        background: rgba(201, 162, 75, 0.12);
         color: var(--gold-light);
-        border: 1px solid rgba(212, 168, 67, 0.35);
+        border: 1px solid rgba(201, 162, 75, 0.4);
         cursor: default;
     }
 
     /* --------------------------- Formulaires -------------------------- */
-    .field-label {
-        @apply block mb-1.5 text-sm font-medium text-offwhite;
-    }
+    .field-label { @apply mb-1.5 block text-sm font-medium text-offwhite; }
     .field-hint { @apply mt-1 text-xs text-muted; }
     .field-error { @apply mt-1 text-xs text-red-400; }
 
     .input, .select, .textarea {
-        @apply w-full rounded-lg px-3.5 py-2.5 text-sm text-offwhite transition-colors duration-150;
+        @apply w-full px-3.5 py-2.5 text-sm text-offwhite transition-colors duration-150;
         background: var(--bg-surface);
         border: 1px solid var(--line);
     }
     .input::placeholder, .textarea::placeholder { color: var(--muted); }
-    .input:focus, .select:focus, .textarea:focus {
-        outline: none;
-        border-color: var(--gold-main);
-    }
-    .checkbox {
-        @apply rounded border-line bg-bg-surface w-4 h-4;
-        color: var(--gold-main);
-    }
+    .input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--gold-main); }
+    .checkbox { @apply h-4 w-4 border-line bg-bg-surface; color: var(--gold-main); }
     .checkbox:focus { outline: none; box-shadow: none; }
 
     /* ----------------------------- Badges ----------------------------- */
-    .badge {
-        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
-    }
-    .badge-muted {
-        @apply badge text-muted;
-        background: rgba(255, 255, 255, 0.05);
-    }
-    .badge-gold {
-        @apply badge;
-        background: rgba(212, 168, 67, 0.12);
-        color: var(--gold-light);
-    }
+    .badge { @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium; }
+    .badge-muted { @apply badge text-muted; background: rgba(255,255,255,0.05); }
+    .badge-gold { @apply badge; background: rgba(201,162,75,0.12); color: var(--gold-light); }
 
-    /* Pastille de statut */
-    .status {
-        @apply inline-flex items-center gap-2 text-xs font-medium;
-    }
-    .status-dot { @apply inline-block w-1.5 h-1.5 rounded-full; }
+    .status { @apply inline-flex items-center gap-2 text-xs font-medium; }
+    .status-dot { @apply inline-block h-1.5 w-1.5; }
     .status-open .status-dot { background: var(--gold-main); }
     .status-open { color: var(--gold-light); }
     .status-closed .status-dot { background: var(--muted); }
     .status-closed { color: var(--muted); }
 
     /* --------------------------- Navigation --------------------------- */
-    .nav-link {
-        @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted transition-colors duration-150;
-    }
-    .nav-link:hover { color: var(--offwhite); background: rgba(255, 255, 255, 0.04); }
-    .nav-link.active {
-        color: var(--gold-light);
-        background: rgba(212, 168, 67, 0.1);
-    }
-    .nav-link svg { @apply w-5 h-5 shrink-0; }
+    .nav-link { @apply flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-muted transition-colors duration-150; }
+    .nav-link:hover { color: var(--offwhite); }
+    .nav-link.active { color: var(--gold-light); }
 
-    /* ------------------------- Barre de progression ------------------- */
-    .progress {
-        @apply w-full rounded-full overflow-hidden;
-        height: 8px;
-        background: var(--bg-surface);
-    }
-    .progress-bar {
-        @apply h-full rounded-full transition-all duration-500;
-        background: var(--gold-main);
-    }
+    /* ------------------------ Barre de progression -------------------- */
+    .progress { @apply w-full overflow-hidden; height: 6px; background: var(--bg-surface); }
+    .progress-bar { @apply h-full transition-all duration-500; background: var(--gold-main); }
 
     /* ------------------------------ Tables ---------------------------- */
     .table-wrap { @apply card overflow-hidden; }
     .data-table { @apply w-full text-sm; }
-    .data-table thead th {
-        @apply px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted border-b border-line;
-    }
+    .data-table thead th { @apply border-b border-line px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted; }
     .data-table tbody td { @apply px-4 py-3 align-middle; }
     .data-table tbody tr { @apply border-b border-line; }
     .data-table tbody tr:last-child { @apply border-0; }
-    .data-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+    .data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
 
     /* ------------------------------ Modale ---------------------------- */
     .modal-overlay {
-        @apply fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4;
-        background: rgba(0, 0, 0, 0.7);
+        @apply fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4;
+        background: rgba(0,0,0,0.72);
     }
-    .modal {
-        @apply card w-full sm:max-w-lg max-h-[92vh] overflow-y-auto p-5 sm:p-6 rounded-b-none sm:rounded-xl;
-    }
+    .modal { @apply card max-h-[92vh] w-full overflow-y-auto p-5 sm:max-w-lg sm:p-6; }
 }

@@ -154,6 +154,6 @@ class AuthController extends Controller
      */
     public static function homeFor($user): string
     {
-        return $user->isAdmin() ? route('admin.categories') : route('vote.index');
+        return $user->isAdmin() ? route('admin.home') : route('vote.index');
     }
 }

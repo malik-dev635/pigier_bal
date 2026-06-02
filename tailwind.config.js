@@ -11,27 +11,37 @@ export default {
         './app/View/**/*.php',
     ],
     theme: {
+        // Angles nets partout — aucun arrondi.
+        borderRadius: {
+            none: '0',
+            sm: '0',
+            DEFAULT: '0',
+            md: '0',
+            lg: '0',
+            xl: '0',
+            '2xl': '0',
+            '3xl': '0',
+            full: '0',
+        },
         extend: {
             colors: {
                 bg: {
                     primary: '#0A0A0B',
-                    card: '#111113',
-                    surface: '#17171A',
+                    card: '#101012',
+                    surface: '#161619',
                 },
-                line: '#26262C',
+                line: '#23232A',
                 gold: {
-                    main: '#D4A843',
-                    light: '#E6C46A',
-                    dark: '#7A5C18',
+                    main: '#C9A24B',
+                    light: '#E3C878',
+                    dark: '#6E5418',
                 },
                 offwhite: '#ECECEE',
-                muted: '#8A8A93',
+                muted: '#86868F',
             },
             fontFamily: {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
-            },
-            borderRadius: {
-                xl: '0.75rem',
+                display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
             },
         },
     },
