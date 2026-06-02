@@ -1,0 +1,241 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   PIGIER'S ÉLITES AWARDS — DA NOIR / OR
+   ============================================================ */
+:root {
+    --bg-primary: #050608;
+    --bg-card: #0D0D0F;
+    --bg-surface: #141418;
+    --gold-main: #D4A843;
+    --gold-light: #F0CC6E;
+    --gold-dark: #7A5C18;
+    --gold-bright: #FAE08A;
+    --text-white: #FFFFFF;
+    --text-offwhite: #F5EDD6;
+    --text-muted: #7A7A8A;
+}
+
+@layer base {
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        @apply bg-bg-primary text-offwhite font-sans antialiased;
+        min-height: 100vh;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+
+    h1, h2, h3, .font-title {
+        font-family: Georgia, 'Times New Roman', serif;
+        letter-spacing: 0.06em;
+        font-weight: 700;
+    }
+
+    /* Scrollbar custom */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--gold-dark) var(--bg-card);
+    }
+    *::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    *::-webkit-scrollbar-track {
+        background: var(--bg-card);
+    }
+    *::-webkit-scrollbar-thumb {
+        background: var(--gold-dark);
+        border-radius: 6px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--gold-main);
+    }
+}
+
+@layer components {
+    /* Barre top dorée présente sur chaque page */
+    .top-gold-bar {
+        @apply fixed top-0 inset-x-0 z-50;
+        height: 4px;
+        background: var(--gold-main);
+    }
+
+    /* ---------- CARDS avec coins dorés décoratifs ---------- */
+    .gold-card {
+        @apply relative bg-bg-card rounded-lg p-6 transition-all duration-200;
+        border: 1px solid var(--gold-dark);
+    }
+    .gold-card::before,
+    .gold-card::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        pointer-events: none;
+    }
+    .gold-card::before {
+        top: 8px;
+        left: 8px;
+        border-top: 2px solid var(--gold-main);
+        border-left: 2px solid var(--gold-main);
+    }
+    .gold-card::after {
+        bottom: 8px;
+        right: 8px;
+        border-bottom: 2px solid var(--gold-main);
+        border-right: 2px solid var(--gold-main);
+    }
+    .gold-card.is-hoverable:hover {
+        border-color: var(--gold-main);
+        box-shadow: 0 0 20px rgba(212, 168, 67, 0.19);
+    }
+
+    /* ---------- BOUTONS ---------- */
+    .btn-gold {
+        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-semibold transition-colors duration-200;
+        background: var(--gold-main);
+        color: var(--bg-primary);
+    }
+    .btn-gold:hover {
+        background: var(--gold-light);
+    }
+    .btn-gold:disabled {
+        @apply opacity-60 cursor-not-allowed;
+    }
+
+    .btn-danger {
+        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-semibold transition-colors duration-200;
+        border: 1px solid var(--gold-main);
+        color: var(--gold-main);
+        background: transparent;
+    }
+    .btn-danger:hover {
+        background: var(--gold-main);
+        color: var(--bg-primary);
+    }
+
+    .btn-ghost {
+        @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium transition-colors duration-200;
+        border: 1px solid var(--gold-dark);
+        color: var(--text-offwhite);
+    }
+    .btn-ghost:hover {
+        border-color: var(--gold-main);
+        color: var(--gold-light);
+    }
+
+    /* Bouton "voté" */
+    .btn-voted {
+        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-semibold cursor-not-allowed;
+        background: var(--gold-dark);
+        color: var(--gold-bright);
+    }
+
+    /* ---------- INPUTS ---------- */
+    .input-gold,
+    .select-gold,
+    .textarea-gold {
+        @apply w-full rounded-md px-4 py-2.5 transition-colors duration-200;
+        background: var(--bg-surface);
+        border: 1px solid var(--gold-dark);
+        color: var(--text-offwhite);
+    }
+    .input-gold::placeholder,
+    .textarea-gold::placeholder {
+        color: var(--text-muted);
+    }
+    .input-gold:focus,
+    .select-gold:focus,
+    .textarea-gold:focus {
+        border-color: var(--gold-main);
+        outline: none;
+        box-shadow: none;
+    }
+    .label-gold {
+        @apply block mb-1.5 text-sm font-medium;
+        color: var(--text-offwhite);
+    }
+
+    /* ---------- BADGES ---------- */
+    .badge-success {
+        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+        background: var(--gold-main);
+        color: var(--bg-primary);
+    }
+    .badge-neutral {
+        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+        background: var(--gold-dark);
+        color: var(--gold-bright);
+    }
+    .badge-open {
+        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+        background: rgba(212, 168, 67, 0.15);
+        color: var(--gold-light);
+        border: 1px solid var(--gold-dark);
+    }
+    .badge-closed {
+        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
+        background: rgba(122, 122, 138, 0.12);
+        color: var(--text-muted);
+        border: 1px solid rgba(122, 122, 138, 0.3);
+    }
+
+    /* ---------- SÉPARATEURS ---------- */
+    .sep-gold {
+        height: 1px;
+        background: var(--gold-dark);
+        border: 0;
+    }
+    .sep-gold-double {
+        height: 4px;
+        border-top: 1px solid var(--gold-dark);
+        border-bottom: 1px solid var(--gold-dark);
+        background: transparent;
+    }
+
+    /* ---------- SIDEBAR ---------- */
+    .sidebar-link {
+        @apply flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200;
+        color: var(--text-offwhite);
+        border-left: 3px solid transparent;
+    }
+    .sidebar-link:hover {
+        color: var(--gold-light);
+        background: rgba(212, 168, 67, 0.06);
+    }
+    .sidebar-link.active {
+        color: var(--gold-main);
+        border-left-color: var(--gold-main);
+        background: rgba(212, 168, 67, 0.08);
+    }
+
+    /* ---------- BARRE DE PROGRESSION ---------- */
+    .progress-track {
+        @apply w-full rounded-full overflow-hidden;
+        height: 10px;
+        background: var(--bg-surface);
+        border: 1px solid var(--gold-dark);
+    }
+    .progress-fill {
+        @apply h-full rounded-full transition-all duration-500;
+        background: linear-gradient(90deg, var(--gold-dark), var(--gold-main), var(--gold-light));
+    }
+}
+
+@layer utilities {
+    .text-gradient-gold {
+        background: linear-gradient(90deg, var(--gold-dark), var(--gold-main), var(--gold-bright));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+}
