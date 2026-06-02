@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,57 +8,45 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
-    <div class="top-gold-bar"></div>
-
-    {{-- Halo doré décoratif --}}
-    <div class="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full blur-3xl"
-         style="background: radial-gradient(circle, rgba(212,168,67,0.12), transparent 70%)"></div>
-
-    <div class="w-full max-w-md relative animate-fade-slide-up">
-        <div class="text-center mb-8">
-            @if (file_exists(public_path('images/affiche.png')))
-                <img src="{{ asset('images/affiche.png') }}" alt="Pigier's Élites Awards"
-                     class="mx-auto h-28 object-contain mb-5 drop-shadow-[0_0_25px_rgba(212,168,67,0.35)]">
-            @endif
-            <h1 class="font-title text-2xl sm:text-3xl text-gradient-gold tracking-widest">PIGIER'S ÉLITES AWARDS</h1>
-            <p class="text-xs text-muted tracking-[0.3em] uppercase mt-2">Bal de Fin d'Année 2026</p>
-            <div class="sep-gold-double w-40 mx-auto mt-5"></div>
+<body class="flex min-h-screen items-center justify-center px-4 py-10">
+    <div class="w-full max-w-sm">
+        <div class="mb-8 text-center">
+            <h1 class="text-xl font-semibold text-white">Pigier's Élites Awards</h1>
+            <p class="mt-1 text-sm text-muted">Bal de fin d'année 2026</p>
         </div>
 
-        <div class="gold-card is-hoverable">
-            <h2 class="font-title text-xl text-offwhite mb-1">Connexion</h2>
-            <p class="text-sm text-muted mb-6">Accédez à votre espace de vote.</p>
+        <div class="card p-6">
+            <h2 class="text-lg font-semibold text-white">Connexion</h2>
+            <p class="mt-1 text-sm text-muted">Connectez-vous pour accéder aux votes.</p>
 
             @if ($errors->any())
-                <div class="mb-5 rounded-md px-4 py-3 text-sm" style="background: rgba(220,38,38,0.12); border:1px solid rgba(220,38,38,0.4); color:#fca5a5">
+                <div class="mt-5 rounded-lg border border-red-500/40 bg-red-500/10 px-3.5 py-2.5 text-sm text-red-300">
                     {{ $errors->first() }}
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login.attempt') }}" class="space-y-5">
+            <form method="POST" action="{{ route('login.attempt') }}" class="mt-5 space-y-4">
                 @csrf
                 <div>
-                    <label for="login" class="label-gold">Email ou téléphone</label>
+                    <label for="login" class="field-label">Email ou téléphone</label>
                     <input id="login" type="text" name="login" value="{{ old('login') }}"
-                           required autofocus class="input-gold" placeholder="vous@pigier.test ou 07 00 00 00 00">
+                           required autofocus class="input" placeholder="nom@exemple.com">
                 </div>
                 <div>
-                    <label for="password" class="label-gold">Mot de passe</label>
-                    <input id="password" type="password" name="password"
-                           required class="input-gold" placeholder="••••••••">
+                    <label for="password" class="field-label">Mot de passe</label>
+                    <input id="password" type="password" name="password" required class="input" placeholder="Votre mot de passe">
                 </div>
                 <label class="flex items-center gap-2 text-sm text-muted">
-                    <input type="checkbox" name="remember" class="rounded border-gold-dark bg-bg-surface text-gold-main focus:ring-0">
-                    Se souvenir de moi
+                    <input type="checkbox" name="remember" class="checkbox">
+                    Rester connecté
                 </label>
-                <button type="submit" class="btn-gold w-full">Se connecter</button>
+                <button type="submit" class="btn-primary w-full">Se connecter</button>
             </form>
 
-            <div class="sep-gold my-6"></div>
+            <div class="my-5 border-t border-line"></div>
             <p class="text-center text-sm text-muted">
                 Pas encore de compte ?
-                <a href="{{ route('register') }}" class="text-gold-main hover:text-gold-light font-medium">Créer mon compte</a>
+                <a href="{{ route('register') }}" class="font-medium text-gold-light hover:underline">Créer un compte</a>
             </p>
         </div>
     </div>

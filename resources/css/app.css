@@ -1,28 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   PIGIER'S ÉLITES AWARDS — DA NOIR / OR
-   ============================================================ */
 :root {
-    --bg-primary: #050608;
-    --bg-card: #0D0D0F;
-    --bg-surface: #141418;
+    --bg-primary: #0A0A0B;
+    --bg-card: #111113;
+    --bg-surface: #17171A;
+    --line: #26262C;
     --gold-main: #D4A843;
-    --gold-light: #F0CC6E;
+    --gold-light: #E6C46A;
     --gold-dark: #7A5C18;
-    --gold-bright: #FAE08A;
-    --text-white: #FFFFFF;
-    --text-offwhite: #F5EDD6;
-    --text-muted: #7A7A8A;
+    --offwhite: #ECECEE;
+    --muted: #8A8A93;
 }
 
 @layer base {
     html {
         font-size: 16px;
+        -webkit-text-size-adjust: 100%;
     }
 
     body {
@@ -30,212 +27,163 @@
         min-height: 100vh;
     }
 
+    h1, h2, h3, h4 {
+        @apply font-semibold text-white;
+        letter-spacing: -0.01em;
+    }
+
     [x-cloak] {
         display: none !important;
     }
 
-    h1, h2, h3, .font-title {
-        font-family: Georgia, 'Times New Roman', serif;
-        letter-spacing: 0.06em;
-        font-weight: 700;
-    }
-
-    /* Scrollbar custom */
+    /* Scrollbar discrète */
     * {
         scrollbar-width: thin;
-        scrollbar-color: var(--gold-dark) var(--bg-card);
+        scrollbar-color: #2c2c33 transparent;
     }
-    *::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-    *::-webkit-scrollbar-track {
-        background: var(--bg-card);
-    }
-    *::-webkit-scrollbar-thumb {
-        background: var(--gold-dark);
-        border-radius: 6px;
-    }
-    *::-webkit-scrollbar-thumb:hover {
-        background: var(--gold-main);
-    }
+    *::-webkit-scrollbar { width: 8px; height: 8px; }
+    *::-webkit-scrollbar-track { background: transparent; }
+    *::-webkit-scrollbar-thumb { background: #2c2c33; border-radius: 4px; }
+    *::-webkit-scrollbar-thumb:hover { background: #3a3a42; }
 }
 
 @layer components {
-    /* Barre top dorée présente sur chaque page */
-    .top-gold-bar {
-        @apply fixed top-0 inset-x-0 z-50;
-        height: 4px;
-        background: var(--gold-main);
+
+    /* ----------------------------- Cartes ----------------------------- */
+    .card {
+        @apply bg-bg-card border border-line rounded-xl;
+    }
+    .card-hover {
+        @apply transition-colors duration-150;
+    }
+    .card-hover:hover {
+        border-color: rgba(212, 168, 67, 0.4);
     }
 
-    /* ---------- CARDS avec coins dorés décoratifs ---------- */
-    .gold-card {
-        @apply relative bg-bg-card rounded-lg p-6 transition-all duration-200;
-        border: 1px solid var(--gold-dark);
+    /* ---------------------------- Boutons ----------------------------- */
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
     }
-    .gold-card::before,
-    .gold-card::after {
-        content: '';
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        pointer-events: none;
-    }
-    .gold-card::before {
-        top: 8px;
-        left: 8px;
-        border-top: 2px solid var(--gold-main);
-        border-left: 2px solid var(--gold-main);
-    }
-    .gold-card::after {
-        bottom: 8px;
-        right: 8px;
-        border-bottom: 2px solid var(--gold-main);
-        border-right: 2px solid var(--gold-main);
-    }
-    .gold-card.is-hoverable:hover {
-        border-color: var(--gold-main);
-        box-shadow: 0 0 20px rgba(212, 168, 67, 0.19);
-    }
-
-    /* ---------- BOUTONS ---------- */
-    .btn-gold {
-        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-semibold transition-colors duration-200;
+    .btn-primary {
+        @apply btn;
         background: var(--gold-main);
-        color: var(--bg-primary);
+        color: #0A0A0B;
     }
-    .btn-gold:hover {
-        background: var(--gold-light);
+    .btn-primary:hover:not(:disabled) { background: var(--gold-light); }
+
+    .btn-secondary {
+        @apply btn border border-line text-offwhite;
+        background: transparent;
     }
-    .btn-gold:disabled {
-        @apply opacity-60 cursor-not-allowed;
-    }
+    .btn-secondary:hover:not(:disabled) { border-color: var(--gold-main); color: #fff; }
 
     .btn-danger {
-        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-semibold transition-colors duration-200;
-        border: 1px solid var(--gold-main);
-        color: var(--gold-main);
+        @apply btn border text-muted;
+        border-color: var(--line);
         background: transparent;
     }
-    .btn-danger:hover {
-        background: var(--gold-main);
-        color: var(--bg-primary);
+    .btn-danger:hover:not(:disabled) {
+        border-color: #b04646;
+        color: #e07a7a;
     }
 
-    .btn-ghost {
-        @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-medium transition-colors duration-200;
-        border: 1px solid var(--gold-dark);
-        color: var(--text-offwhite);
-    }
-    .btn-ghost:hover {
-        border-color: var(--gold-main);
-        color: var(--gold-light);
-    }
+    .btn-sm { @apply px-3 py-1.5 text-xs; }
 
-    /* Bouton "voté" */
+    /* État « déjà voté » */
     .btn-voted {
-        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md font-semibold cursor-not-allowed;
-        background: var(--gold-dark);
-        color: var(--gold-bright);
+        @apply btn;
+        background: rgba(212, 168, 67, 0.12);
+        color: var(--gold-light);
+        border: 1px solid rgba(212, 168, 67, 0.35);
+        cursor: default;
     }
 
-    /* ---------- INPUTS ---------- */
-    .input-gold,
-    .select-gold,
-    .textarea-gold {
-        @apply w-full rounded-md px-4 py-2.5 transition-colors duration-200;
+    /* --------------------------- Formulaires -------------------------- */
+    .field-label {
+        @apply block mb-1.5 text-sm font-medium text-offwhite;
+    }
+    .field-hint { @apply mt-1 text-xs text-muted; }
+    .field-error { @apply mt-1 text-xs text-red-400; }
+
+    .input, .select, .textarea {
+        @apply w-full rounded-lg px-3.5 py-2.5 text-sm text-offwhite transition-colors duration-150;
         background: var(--bg-surface);
-        border: 1px solid var(--gold-dark);
-        color: var(--text-offwhite);
+        border: 1px solid var(--line);
     }
-    .input-gold::placeholder,
-    .textarea-gold::placeholder {
-        color: var(--text-muted);
-    }
-    .input-gold:focus,
-    .select-gold:focus,
-    .textarea-gold:focus {
-        border-color: var(--gold-main);
+    .input::placeholder, .textarea::placeholder { color: var(--muted); }
+    .input:focus, .select:focus, .textarea:focus {
         outline: none;
-        box-shadow: none;
+        border-color: var(--gold-main);
     }
-    .label-gold {
-        @apply block mb-1.5 text-sm font-medium;
-        color: var(--text-offwhite);
-    }
-
-    /* ---------- BADGES ---------- */
-    .badge-success {
-        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
-        background: var(--gold-main);
-        color: var(--bg-primary);
-    }
-    .badge-neutral {
-        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
-        background: var(--gold-dark);
-        color: var(--gold-bright);
-    }
-    .badge-open {
-        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
-        background: rgba(212, 168, 67, 0.15);
-        color: var(--gold-light);
-        border: 1px solid var(--gold-dark);
-    }
-    .badge-closed {
-        @apply inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold;
-        background: rgba(122, 122, 138, 0.12);
-        color: var(--text-muted);
-        border: 1px solid rgba(122, 122, 138, 0.3);
-    }
-
-    /* ---------- SÉPARATEURS ---------- */
-    .sep-gold {
-        height: 1px;
-        background: var(--gold-dark);
-        border: 0;
-    }
-    .sep-gold-double {
-        height: 4px;
-        border-top: 1px solid var(--gold-dark);
-        border-bottom: 1px solid var(--gold-dark);
-        background: transparent;
-    }
-
-    /* ---------- SIDEBAR ---------- */
-    .sidebar-link {
-        @apply flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors duration-200;
-        color: var(--text-offwhite);
-        border-left: 3px solid transparent;
-    }
-    .sidebar-link:hover {
-        color: var(--gold-light);
-        background: rgba(212, 168, 67, 0.06);
-    }
-    .sidebar-link.active {
+    .checkbox {
+        @apply rounded border-line bg-bg-surface w-4 h-4;
         color: var(--gold-main);
-        border-left-color: var(--gold-main);
-        background: rgba(212, 168, 67, 0.08);
+    }
+    .checkbox:focus { outline: none; box-shadow: none; }
+
+    /* ----------------------------- Badges ----------------------------- */
+    .badge {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
+    }
+    .badge-muted {
+        @apply badge text-muted;
+        background: rgba(255, 255, 255, 0.05);
+    }
+    .badge-gold {
+        @apply badge;
+        background: rgba(212, 168, 67, 0.12);
+        color: var(--gold-light);
     }
 
-    /* ---------- BARRE DE PROGRESSION ---------- */
-    .progress-track {
+    /* Pastille de statut */
+    .status {
+        @apply inline-flex items-center gap-2 text-xs font-medium;
+    }
+    .status-dot { @apply inline-block w-1.5 h-1.5 rounded-full; }
+    .status-open .status-dot { background: var(--gold-main); }
+    .status-open { color: var(--gold-light); }
+    .status-closed .status-dot { background: var(--muted); }
+    .status-closed { color: var(--muted); }
+
+    /* --------------------------- Navigation --------------------------- */
+    .nav-link {
+        @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted transition-colors duration-150;
+    }
+    .nav-link:hover { color: var(--offwhite); background: rgba(255, 255, 255, 0.04); }
+    .nav-link.active {
+        color: var(--gold-light);
+        background: rgba(212, 168, 67, 0.1);
+    }
+    .nav-link svg { @apply w-5 h-5 shrink-0; }
+
+    /* ------------------------- Barre de progression ------------------- */
+    .progress {
         @apply w-full rounded-full overflow-hidden;
-        height: 10px;
+        height: 8px;
         background: var(--bg-surface);
-        border: 1px solid var(--gold-dark);
     }
-    .progress-fill {
+    .progress-bar {
         @apply h-full rounded-full transition-all duration-500;
-        background: linear-gradient(90deg, var(--gold-dark), var(--gold-main), var(--gold-light));
+        background: var(--gold-main);
     }
-}
 
-@layer utilities {
-    .text-gradient-gold {
-        background: linear-gradient(90deg, var(--gold-dark), var(--gold-main), var(--gold-bright));
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
+    /* ------------------------------ Tables ---------------------------- */
+    .table-wrap { @apply card overflow-hidden; }
+    .data-table { @apply w-full text-sm; }
+    .data-table thead th {
+        @apply px-4 py-3 text-left text-xs font-medium uppercase tracking-wide text-muted border-b border-line;
+    }
+    .data-table tbody td { @apply px-4 py-3 align-middle; }
+    .data-table tbody tr { @apply border-b border-line; }
+    .data-table tbody tr:last-child { @apply border-0; }
+    .data-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+    /* ------------------------------ Modale ---------------------------- */
+    .modal-overlay {
+        @apply fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4;
+        background: rgba(0, 0, 0, 0.7);
+    }
+    .modal {
+        @apply card w-full sm:max-w-lg max-h-[92vh] overflow-y-auto p-5 sm:p-6 rounded-b-none sm:rounded-xl;
     }
 }

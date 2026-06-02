@@ -14,41 +14,24 @@ export default {
         extend: {
             colors: {
                 bg: {
-                    primary: '#050608',
-                    card: '#0D0D0F',
-                    surface: '#141418',
+                    primary: '#0A0A0B',
+                    card: '#111113',
+                    surface: '#17171A',
                 },
+                line: '#26262C',
                 gold: {
                     main: '#D4A843',
-                    light: '#F0CC6E',
+                    light: '#E6C46A',
                     dark: '#7A5C18',
-                    bright: '#FAE08A',
                 },
-                offwhite: '#F5EDD6',
-                muted: '#7A7A8A',
+                offwhite: '#ECECEE',
+                muted: '#8A8A93',
             },
             fontFamily: {
-                serif: ['Georgia', ...defaultTheme.fontFamily.serif],
-                display: ['"Cinzel"', '"Playfair Display"', 'Georgia', 'serif'],
-                sans: ['"Inter"', 'Calibri', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
-            boxShadow: {
-                gold: '0 0 20px rgba(212, 168, 67, 0.19)',
-                'gold-lg': '0 0 35px rgba(212, 168, 67, 0.28)',
-            },
-            keyframes: {
-                'fade-slide-up': {
-                    '0%': { opacity: '0', transform: 'translateY(12px)' },
-                    '100%': { opacity: '1', transform: 'translateY(0)' },
-                },
-                'fade-in': {
-                    '0%': { opacity: '0' },
-                    '100%': { opacity: '1' },
-                },
-            },
-            animation: {
-                'fade-slide-up': 'fade-slide-up 0.2s ease both',
-                'fade-in': 'fade-in 0.2s ease both',
+            borderRadius: {
+                xl: '0.75rem',
             },
         },
     },

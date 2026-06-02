@@ -1,59 +1,54 @@
 <div wire:poll.5s>
-    <div class="flex items-center justify-between mb-8">
+    <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h1 class="font-title text-3xl text-gradient-gold tracking-wide">TABLEAU DE BORD</h1>
-            <p class="text-muted mt-1 flex items-center gap-2">
-                <span class="inline-block w-2 h-2 rounded-full bg-gold-main animate-pulse"></span>
-                Temps réel · actualisation automatique (5s)
+            <h1 class="text-2xl font-semibold text-white">Tableau de bord</h1>
+            <p class="mt-1 flex items-center gap-2 text-sm text-muted">
+                <span class="status-dot bg-gold-main"></span>
+                Actualisation automatique toutes les 5 secondes
             </p>
         </div>
-        <a href="{{ route('admin.results.export') }}" class="btn-ghost">⬇ Export CSV</a>
+        <a href="{{ route('admin.results.export') }}" class="btn-secondary">Exporter en CSV</a>
     </div>
 
-    {{-- Stat cards --}}
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+    {{-- Indicateurs --}}
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         @php
             $stats = [
-                ['Votes exprimés', $totalVotes, '🗳️'],
-                ['Participants', $participants.' / '.$totalVoters, '👥'],
-                ['Catégories ouvertes', $openCategories.' / '.$totalCategories, '🏆'],
-                ['Nominés', $totalNominees, '👤'],
+                ['Votes exprimés', $totalVotes],
+                ['Participants', $participants.' / '.$totalVoters],
+                ['Catégories ouvertes', $openCategories.' / '.$totalCategories],
+                ['Nominés', $totalNominees],
             ];
         @endphp
-        @foreach($stats as [$label, $value, $icon])
-            <div class="gold-card is-hoverable">
-                <div class="flex items-center justify-between">
-                    <span class="text-2xl">{{ $icon }}</span>
-                </div>
-                <p class="font-title text-3xl text-gold-light mt-3">{{ $value }}</p>
-                <p class="text-xs text-muted uppercase tracking-wider mt-1">{{ $label }}</p>
+        @foreach($stats as [$label, $value])
+            <div class="card p-5">
+                <p class="text-sm text-muted">{{ $label }}</p>
+                <p class="mt-2 text-2xl font-semibold text-white">{{ $value }}</p>
             </div>
         @endforeach
     </div>
 
-    <div class="sep-gold-double w-full mb-8"></div>
-
     {{-- Progression par catégorie --}}
-    <h2 class="font-title text-xl text-offwhite mb-5">Progression par catégorie</h2>
-    <div class="grid gap-5 lg:grid-cols-2">
+    <h2 class="mb-4 mt-8 text-lg font-semibold text-white">Progression par catégorie</h2>
+    <div class="grid gap-4 lg:grid-cols-2">
         @foreach($categories as $category)
             @php $top = $topNominees[$category->id] ?? null; @endphp
-            <div class="gold-card">
-                <div class="flex items-start justify-between gap-3 mb-3">
+            <div class="card p-5">
+                <div class="mb-3 flex items-start justify-between gap-3">
                     <div>
-                        <h3 class="font-title text-offwhite">{{ $category->name }}</h3>
+                        <h3 class="font-medium text-white">{{ $category->name }}</h3>
                         <p class="text-xs text-muted">{{ $category->voterTypeLabel() }}</p>
                     </div>
-                    <span class="{{ $category->is_active ? 'badge-open' : 'badge-closed' }}">
-                        {{ $category->is_active ? 'Ouvert' : 'Clôturé' }}
+                    <span class="status {{ $category->is_active ? 'status-open' : 'status-closed' }} shrink-0">
+                        <span class="status-dot"></span>{{ $category->is_active ? 'Ouvert' : 'Clôturé' }}
                     </span>
                 </div>
 
-                <div class="progress-track mb-2">
-                    <div class="progress-fill" style="width: {{ round(($category->votes_count / $maxVotes) * 100) }}%"></div>
+                <div class="progress mb-2">
+                    <div class="progress-bar" style="width: {{ round(($category->votes_count / $maxVotes) * 100) }}%"></div>
                 </div>
                 <div class="flex items-center justify-between text-xs">
-                    <span class="text-gold-light font-semibold">{{ $category->votes_count }} vote(s)</span>
+                    <span class="font-medium text-gold-light">{{ $category->votes_count }} vote{{ $category->votes_count > 1 ? 's' : '' }}</span>
                     @if($top && $top->votes_count > 0)
                         <span class="text-muted">En tête : <span class="text-offwhite">{{ $top->full_name }}</span> ({{ $top->votes_count }})</span>
                     @else
