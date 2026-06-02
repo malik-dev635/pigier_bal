@@ -7,7 +7,7 @@
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-2xl font-semibold text-white">Résultats</h1>
-            <p class="mt-1 text-sm text-muted">Classement détaillé par catégorie.</p>
+            <p class="mt-1 text-sm text-muted">Classement détaillé par récompense.</p>
         </div>
         <a href="{{ route('admin.results.export') }}" class="btn-primary">Exporter en CSV</a>
     </div>

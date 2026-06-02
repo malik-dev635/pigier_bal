@@ -6,8 +6,8 @@
 
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-2xl font-semibold text-white">Utilisateurs</h1>
-            <p class="mt-1 text-sm text-muted">Gérez les comptes élèves, professeurs et administrateurs.</p>
+            <h1 class="text-2xl sm:text-3xl">Participants</h1>
+            <p class="mt-1 text-sm text-muted">Gérez les comptes des élèves, professeurs et administrateurs.</p>
         </div>
         <button wire:click="create" class="btn-primary">Nouveau compte</button>
     </div>
@@ -52,7 +52,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="py-12 text-center text-muted">Aucun utilisateur trouvé.</td></tr>
+                    <tr><td colspan="5" class="py-12 text-center text-muted">Aucun participant trouvé.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -12,7 +12,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 #[Layout('layouts.admin')]
-#[Title('Utilisateurs')]
+#[Title('Participants')]
 class UserManager extends Component
 {
     use WithPagination;

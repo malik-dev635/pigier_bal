@@ -6,7 +6,7 @@
 
     @if($votes->isEmpty())
         <div class="card p-10 text-center">
-            <p class="text-sm text-muted">Vous n'avez encore voté dans aucune catégorie.</p>
+            <p class="text-sm text-muted">Vous n'avez encore voté pour aucune récompense.</p>
             <a href="{{ route('vote.index') }}" class="btn-primary mt-4">Commencer à voter</a>
         </div>
     @else
@@ -21,7 +21,7 @@
                         @endif
                     </div>
                     <div class="min-w-0 flex-1">
-                        <p class="truncate text-xs text-muted">{{ $vote->category?->name ?? 'Catégorie supprimée' }}</p>
+                        <p class="truncate text-xs text-muted">{{ $vote->category?->name ?? 'Récompense supprimée' }}</p>
                         <p class="truncate font-medium text-white">{{ $vote->nominee?->full_name ?? 'Nominé supprimé' }}</p>
                         <p class="mt-0.5 text-xs text-muted">{{ $vote->created_at->translatedFormat('d M Y à H:i') }}</p>
                     </div>

@@ -7,20 +7,20 @@
     <div class="mb-6 mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-2xl font-semibold text-white">Nominés</h1>
-            <p class="mt-1 text-sm text-muted">Ajoutez et gérez les nominés de chaque catégorie.</p>
+            <p class="mt-1 text-sm text-muted">Ajoutez et gérez les nominés de chaque récompense.</p>
         </div>
         <button wire:click="create" class="btn-primary" @disabled(! $categoryId)>Ajouter un nominé</button>
     </div>
 
     <div class="card mb-6 p-4">
-        <label class="field-label">Catégorie</label>
+        <label class="field-label">Récompense</label>
         <select wire:model.live="categoryId" class="select max-w-md">
             @foreach($categories as $cat)
                 <option value="{{ $cat->id }}">{{ $cat->name }} — {{ $cat->voterTypeLabel() }}</option>
             @endforeach
         </select>
         @if($this->category && $this->category->requires_proof)
-            <p class="field-hint">Preuve obligatoire pour cette catégorie — type : <span class="text-offwhite">{{ ucfirst($this->category->proof_type) }}</span>.</p>
+            <p class="field-hint">Preuve obligatoire pour cette récompense — type : <span class="text-offwhite">{{ ucfirst($this->category->proof_type) }}</span>.</p>
         @endif
     </div>
 
@@ -55,7 +55,7 @@
             </div>
         @empty
             <div class="card p-10 text-center sm:col-span-2 lg:col-span-3">
-                <p class="text-sm text-muted">Aucun nominé dans cette catégorie.</p>
+                <p class="text-sm text-muted">Aucun nominé dans cette récompense.</p>
             </div>
         @endforelse
     </div>

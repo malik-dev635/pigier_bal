@@ -30,7 +30,7 @@ class AdminController extends Controller
             fwrite($out, "\xEF\xBB\xBF");
 
             fputcsv($out, [
-                'Catégorie', 'Type de votant', 'Statut', 'Rang',
+                'Récompense', 'Votants', 'Statut', 'Rang',
                 'Nominé', 'Classe', 'Votes', 'Pourcentage',
             ], ';');
 

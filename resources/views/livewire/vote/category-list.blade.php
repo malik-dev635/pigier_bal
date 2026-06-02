@@ -1,14 +1,15 @@
 <div>
     <div class="mb-8">
-        <h1 class="text-2xl font-semibold text-white sm:text-3xl">Catégories</h1>
-        <p class="mt-2 max-w-2xl text-sm text-muted">
-            Sélectionnez une catégorie pour voir les nominés. Vous disposez d'un seul vote par catégorie.
+        <p class="eyebrow">Pigier's Élites Awards 2026</p>
+        <h1 class="mt-2 text-3xl sm:text-4xl">Les récompenses</h1>
+        <p class="mt-3 max-w-2xl text-sm text-muted">
+            Choisissez une récompense pour découvrir les nominés et soutenir votre favori. Un seul vote par récompense.
         </p>
     </div>
 
     @if($categories->isEmpty())
         <div class="card p-10 text-center">
-            <p class="text-sm text-muted">Aucune catégorie ne vous est accessible pour le moment.</p>
+            <p class="text-sm text-muted">Aucune récompense ne vous est ouverte pour le moment.</p>
         </div>
     @else
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

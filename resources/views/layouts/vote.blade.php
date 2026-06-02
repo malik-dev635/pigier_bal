@@ -23,7 +23,7 @@
                 <nav class="hidden items-center gap-1 sm:flex">
                     <a href="{{ route('vote.index') }}"
                        class="rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('vote.index','vote.category') ? 'text-gold-light' : 'text-muted hover:text-offwhite' }}">
-                        Catégories
+                        Récompenses
                     </a>
                     <a href="{{ route('vote.history') }}"
                        class="rounded-lg px-3 py-2 text-sm font-medium transition-colors {{ request()->routeIs('vote.history') ? 'text-gold-light' : 'text-muted hover:text-offwhite' }}">
@@ -48,7 +48,7 @@
 
             {{-- Navigation mobile --}}
             <nav x-show="open" x-cloak class="flex flex-col gap-1 border-t border-line py-3 sm:hidden">
-                <a href="{{ route('vote.index') }}" class="nav-link {{ request()->routeIs('vote.index','vote.category') ? 'active' : '' }}">Catégories</a>
+                <a href="{{ route('vote.index') }}" class="nav-link {{ request()->routeIs('vote.index','vote.category') ? 'active' : '' }}">Récompenses</a>
                 <a href="{{ route('vote.history') }}" class="nav-link {{ request()->routeIs('vote.history') ? 'active' : '' }}">Mes votes</a>
                 @if(auth()->user()->isAdmin())
                     <a href="{{ route('admin.home') }}" class="nav-link">Administration</a>

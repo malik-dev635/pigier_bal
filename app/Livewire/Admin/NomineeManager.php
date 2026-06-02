@@ -87,7 +87,7 @@ class NomineeManager extends Component
     public function create(): void
     {
         $this->authorize('create', Nominee::class);
-        abort_unless($this->categoryId, 422, 'Sélectionnez d\'abord une catégorie.');
+        abort_unless($this->categoryId, 422, 'Sélectionnez d\'abord une récompense.');
         $this->resetForm();
         $this->showModal = true;
     }

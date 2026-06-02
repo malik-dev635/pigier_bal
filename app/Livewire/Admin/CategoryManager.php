@@ -12,7 +12,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 
 #[Layout('layouts.admin')]
-#[Title('Catégories')]
+#[Title('Récompenses')]
 class CategoryManager extends Component
 {
     use WithFileUploads;
@@ -102,11 +102,11 @@ class CategoryManager extends Component
             $category = Category::findOrFail($this->editingId);
             $this->authorize('update', $category);
             $category->update($data);
-            $message = 'Catégorie mise à jour.';
+            $message = 'Récompense mise à jour.';
         } else {
             $this->authorize('create', Category::class);
             Category::create($data);
-            $message = 'Catégorie créée.';
+            $message = 'Récompense créée.';
         }
 
         $this->showModal = false;
@@ -131,7 +131,7 @@ class CategoryManager extends Component
         $this->authorize('delete', $category);
         $category->delete();
 
-        $this->dispatch('toast', message: 'Catégorie supprimée.');
+        $this->dispatch('toast', message: 'Récompense supprimée.');
     }
 
     public function resetForm(): void

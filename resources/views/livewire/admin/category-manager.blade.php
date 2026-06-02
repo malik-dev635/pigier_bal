@@ -6,17 +6,17 @@
 
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-2xl font-semibold text-white">Catégories</h1>
+            <h1 class="text-2xl sm:text-3xl">Récompenses</h1>
             <p class="mt-1 text-sm text-muted">
-                {{ $totalVotes }} vote{{ $totalVotes > 1 ? 's' : '' }} · {{ $participants }} participant{{ $participants > 1 ? 's' : '' }} · {{ $openCount }} catégorie{{ $openCount > 1 ? 's' : '' }} ouverte{{ $openCount > 1 ? 's' : '' }}
+                {{ $totalVotes }} vote{{ $totalVotes > 1 ? 's' : '' }} · {{ $participants }} participant{{ $participants > 1 ? 's' : '' }} · {{ $openCount }} récompense{{ $openCount > 1 ? 's' : '' }} ouverte{{ $openCount > 1 ? 's' : '' }}
             </p>
         </div>
-        <button wire:click="create" class="btn-primary">Nouvelle catégorie</button>
+        <button wire:click="create" class="btn-primary">Nouvelle récompense</button>
     </div>
 
     @if($categories->isEmpty())
         <div class="card p-10 text-center">
-            <p class="text-sm text-muted">Aucune catégorie. Créez-en une pour commencer.</p>
+            <p class="text-sm text-muted">Aucune récompense. Créez-en une pour commencer.</p>
         </div>
     @else
         <div class="space-y-3">
@@ -57,7 +57,7 @@
                             <a href="{{ route('admin.nominees', ['category' => $category->id]) }}" class="btn-secondary btn-sm">Nominés</a>
                             <button wire:click="edit({{ $category->id }})" class="btn-secondary btn-sm">Modifier</button>
                             <button wire:click="delete({{ $category->id }})"
-                                    wire:confirm="Supprimer cette catégorie ainsi que ses nominés et votes ?"
+                                    wire:confirm="Supprimer cette récompense ainsi que ses nominés et votes ?"
                                     class="btn-danger btn-sm">Supprimer</button>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
     @if($showModal)
         <div class="modal-overlay" wire:key="cat-modal">
             <div class="modal" @click.outside="$wire.set('showModal', false)">
-                <h2 class="text-lg font-semibold text-white">{{ $editingId ? 'Modifier la catégorie' : 'Nouvelle catégorie' }}</h2>
+                <h2 class="text-lg font-semibold text-white">{{ $editingId ? 'Modifier la récompense' : 'Nouvelle récompense' }}</h2>
 
                 <form wire:submit="save" class="mt-5 space-y-4">
                     <div>

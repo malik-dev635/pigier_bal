@@ -37,7 +37,7 @@ class CategoryVote extends Component
 
         // Gate métier centrale (côté serveur) : type, ouverture, unicité.
         if (! $user->can('create', [Vote::class, $this->category])) {
-            $this->dispatch('vote-error', message: "Ce vote n'est pas autorisé (catégorie clôturée, déjà voté, ou non concerné).");
+            $this->dispatch('vote-error', message: "Ce vote n'est pas autorisé (récompense clôturée, vote déjà utilisé, ou non concerné).");
             return;
         }
 
@@ -61,7 +61,7 @@ class CategoryVote extends Component
             $this->votedNomineeId = $user->votes()
                 ->where('category_id', $this->category->id)
                 ->value('nominee_id');
-            $this->dispatch('vote-error', message: 'Vous avez déjà voté dans cette catégorie.');
+            $this->dispatch('vote-error', message: 'Vous avez déjà voté pour cette récompense.');
             return;
         }
 
