@@ -1,75 +1,65 @@
-<div>
+<div wire:poll.15s>
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-2xl font-semibold text-white">Catégories</h1>
-            <p class="mt-1 text-sm text-muted">Créez les catégories et ouvrez ou fermez les votes.</p>
+            <p class="mt-1 text-sm text-muted">
+                {{ $totalVotes }} vote{{ $totalVotes > 1 ? 's' : '' }} · {{ $participants }} participant{{ $participants > 1 ? 's' : '' }} · {{ $openCount }} catégorie{{ $openCount > 1 ? 's' : '' }} ouverte{{ $openCount > 1 ? 's' : '' }}
+            </p>
         </div>
         <button wire:click="create" class="btn-primary">Nouvelle catégorie</button>
     </div>
 
-    <div class="table-wrap overflow-x-auto">
-        <table class="data-table min-w-[760px]">
-            <thead>
-                <tr>
-                    <th>Catégorie</th>
-                    <th>Votants</th>
-                    <th>Preuve</th>
-                    <th class="text-center">Nominés</th>
-                    <th class="text-center">Votes</th>
-                    <th class="text-center">Statut</th>
-                    <th class="text-right">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($categories as $category)
-                    <tr>
-                        <td>
-                            <div class="flex items-center gap-3">
-                                <div class="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-line bg-bg-surface">
-                                    @if($category->image_url)
-                                        <img src="{{ $category->image_url }}" alt="" class="h-full w-full object-cover">
-                                    @endif
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="font-medium text-white">{{ $category->name }}</p>
-                                    @if($category->description)
-                                        <p class="line-clamp-1 max-w-xs text-xs text-muted">{{ $category->description }}</p>
-                                    @endif
-                                </div>
+    @if($categories->isEmpty())
+        <div class="card p-10 text-center">
+            <p class="text-sm text-muted">Aucune catégorie. Créez-en une pour commencer.</p>
+        </div>
+    @else
+        <div class="space-y-3">
+            @foreach($categories as $category)
+                <div class="card p-4 sm:p-5">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        {{-- Infos --}}
+                        <div class="flex items-center gap-3 min-w-0">
+                            <div class="h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-line bg-bg-surface">
+                                @if($category->image_url)
+                                    <img src="{{ $category->image_url }}" alt="" class="h-full w-full object-cover">
+                                @endif
                             </div>
-                        </td>
-                        <td><span class="badge-muted">{{ $category->voterTypeLabel() }}</span></td>
-                        <td>
-                            @if($category->requires_proof)
-                                <span class="badge-muted">{{ ucfirst($category->proof_type) }}</span>
-                            @else
-                                <span class="text-muted">—</span>
-                            @endif
-                        </td>
-                        <td class="text-center text-offwhite">{{ $category->nominees_count }}</td>
-                        <td class="text-center font-medium text-gold-light">{{ $category->votes_count }}</td>
-                        <td class="text-center">
+                            <div class="min-w-0">
+                                <p class="truncate font-medium text-white">{{ $category->name }}</p>
+                                <p class="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted">
+                                    <span>{{ $category->voterTypeLabel() }}</span>
+                                    <span aria-hidden="true">·</span>
+                                    <span>{{ $category->nominees_count }} nominé{{ $category->nominees_count > 1 ? 's' : '' }}</span>
+                                    <span aria-hidden="true">·</span>
+                                    <span class="font-medium text-gold-light">{{ $category->votes_count }} vote{{ $category->votes_count > 1 ? 's' : '' }}</span>
+                                    @if($category->requires_proof)
+                                        <span aria-hidden="true">·</span>
+                                        <span>preuve {{ $category->proof_type }}</span>
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+
+                        {{-- Actions --}}
+                        <div class="flex flex-wrap items-center gap-2 sm:justify-end">
                             <button wire:click="toggle({{ $category->id }})"
-                                    class="status {{ $category->is_active ? 'status-open' : 'status-closed' }} mx-auto"
-                                    title="Cliquer pour {{ $category->is_active ? 'clôturer' : 'ouvrir' }}">
-                                <span class="status-dot"></span>{{ $category->is_active ? 'Ouvert' : 'Clôturé' }}
+                                    class="btn-secondary btn-sm">
+                                <span class="status {{ $category->is_active ? 'status-open' : 'status-closed' }}">
+                                    <span class="status-dot"></span>{{ $category->is_active ? 'Ouvert' : 'Clôturé' }}
+                                </span>
                             </button>
-                        </td>
-                        <td>
-                            <div class="flex items-center justify-end gap-2">
-                                <button wire:click="edit({{ $category->id }})" class="btn-secondary btn-sm">Modifier</button>
-                                <button wire:click="delete({{ $category->id }})"
-                                        wire:confirm="Supprimer cette catégorie ainsi que ses nominés et votes ?"
-                                        class="btn-danger btn-sm">Supprimer</button>
-                            </div>
-                        </td>
-                    </tr>
-                @empty
-                    <tr><td colspan="7" class="py-12 text-center text-muted">Aucune catégorie pour l'instant.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                            <a href="{{ route('admin.nominees', ['category' => $category->id]) }}" class="btn-secondary btn-sm">Nominés</a>
+                            <button wire:click="edit({{ $category->id }})" class="btn-secondary btn-sm">Modifier</button>
+                            <button wire:click="delete({{ $category->id }})"
+                                    wire:confirm="Supprimer cette catégorie ainsi que ses nominés et votes ?"
+                                    class="btn-danger btn-sm">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
 
     {{-- Modale --}}
     @if($showModal)

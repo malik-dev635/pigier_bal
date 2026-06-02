@@ -30,7 +30,7 @@
                         Mes votes
                     </a>
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-muted hover:text-offwhite">Administration</a>
+                        <a href="{{ route('admin.categories') }}" class="rounded-lg px-3 py-2 text-sm font-medium text-muted hover:text-offwhite">Administration</a>
                     @endif
                     <span class="mx-2 h-5 w-px bg-line"></span>
                     <span class="text-sm text-muted">{{ auth()->user()->name }}</span>
@@ -51,7 +51,7 @@
                 <a href="{{ route('vote.index') }}" class="nav-link {{ request()->routeIs('vote.index','vote.category') ? 'active' : '' }}">Catégories</a>
                 <a href="{{ route('vote.history') }}" class="nav-link {{ request()->routeIs('vote.history') ? 'active' : '' }}">Mes votes</a>
                 @if(auth()->user()->isAdmin())
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link">Administration</a>
+                    <a href="{{ route('admin.categories') }}" class="nav-link">Administration</a>
                 @endif
                 <div class="mt-2 flex items-center justify-between border-t border-line px-3 pt-3">
                     <span class="text-sm text-muted">{{ auth()->user()->name }}</span>

@@ -6,7 +6,6 @@ use App\Livewire\Admin\CategoryManager;
 use App\Livewire\Admin\NomineeManager;
 use App\Livewire\Admin\Results;
 use App\Livewire\Admin\UserManager;
-use App\Livewire\Admin\VoteDashboard;
 use App\Livewire\Vote\CategoryList;
 use App\Livewire\Vote\CategoryVote;
 use App\Livewire\Vote\VoteHistory;
@@ -60,10 +59,9 @@ Route::middleware('auth')->prefix('vote')->name('vote.')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', VoteDashboard::class)->name('dashboard');
-    Route::get('/categories', CategoryManager::class)->name('categories');
+    Route::get('/', CategoryManager::class)->name('categories');
     Route::get('/nominees', NomineeManager::class)->name('nominees');
     Route::get('/resultats', Results::class)->name('results');
-    Route::get('/utilisateurs', UserManager::class)->name('users');
+    Route::get('/comptes', UserManager::class)->name('users');
     Route::get('/resultats/export', [AdminController::class, 'exportResults'])->name('results.export');
 });

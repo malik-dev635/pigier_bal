@@ -40,7 +40,8 @@ class NomineeManager extends Component
 
     public function mount(): void
     {
-        $this->categoryId ??= Category::query()->orderBy('name')->value('id');
+        $this->categoryId = request()->integer('category')
+            ?: Category::query()->orderBy('name')->value('id');
     }
 
     public function getCategoryProperty(): ?Category

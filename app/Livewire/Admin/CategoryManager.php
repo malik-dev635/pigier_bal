@@ -156,6 +156,9 @@ class CategoryManager extends Component
 
         return view('livewire.admin.category-manager', [
             'categories' => $categories,
+            'totalVotes' => \App\Models\Vote::count(),
+            'participants' => \App\Models\Vote::distinct('user_id')->count('user_id'),
+            'openCount' => $categories->where('is_active', true)->count(),
         ]);
     }
 }
