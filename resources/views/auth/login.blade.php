@@ -61,15 +61,6 @@
                 <a href="{{ route('register') }}" class="text-gold-main hover:text-gold-light font-medium">Créer mon compte</a>
             </p>
         </div>
-
-        <div class="gold-card mt-5 !p-4">
-            <p class="text-xs text-muted mb-2 uppercase tracking-wider">Comptes de démonstration</p>
-            <ul class="text-xs text-offwhite space-y-1 font-mono">
-                <li><span class="text-gold-main">Admin&nbsp;:</span> admin@pigier.test / password</li>
-                <li><span class="text-gold-main">Prof&nbsp;:</span> prof@pigier.test / password</li>
-                <li><span class="text-gold-main">Élève&nbsp;:</span> eleve@pigier.test / password</li>
-            </ul>
-        </div>
     </div>
 </body>
 </html>
