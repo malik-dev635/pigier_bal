@@ -7,7 +7,7 @@
     <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <h1 class="text-2xl sm:text-3xl">Participants</h1>
-            <p class="mt-1 text-sm text-muted">Gérez les comptes des élèves, professeurs et administrateurs.</p>
+            <p class="mt-1 text-sm text-muted">Gérez les comptes des étudiants, professeurs et administrateurs.</p>
         </div>
         <button wire:click="create" class="btn-primary">Nouveau compte</button>
     </div>
@@ -18,7 +18,7 @@
             <option value="">Tous les rôles</option>
             <option value="admin">Administrateurs</option>
             <option value="professeur">Professeurs</option>
-            <option value="eleve">Élèves</option>
+            <option value="eleve">Étudiants</option>
         </select>
     </div>
 
@@ -40,7 +40,7 @@
                         <td class="text-muted">{{ $user->email ?? $user->phone ?? '—' }}</td>
                         <td>
                             <span class="{{ $user->role === 'admin' ? 'badge-gold' : 'badge-muted' }}">
-                                {{ ['admin' => 'Administrateur', 'professeur' => 'Professeur', 'eleve' => 'Élève'][$user->role] ?? $user->role }}
+                                {{ ['admin' => 'Administrateur', 'professeur' => 'Professeur', 'eleve' => 'Étudiant'][$user->role] ?? $user->role }}
                             </span>
                         </td>
                         <td class="text-muted">{{ $user->class ?? '—' }}</td>
@@ -90,7 +90,7 @@
                         <div>
                             <label class="field-label">Rôle</label>
                             <select wire:model="role" class="select">
-                                <option value="eleve">Élève</option>
+                                <option value="eleve">Étudiant</option>
                                 <option value="professeur">Professeur</option>
                                 <option value="admin">Administrateur</option>
                             </select>

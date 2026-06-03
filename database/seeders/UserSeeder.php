@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                 'class' => 'Marketing',
             ],
             [
-                'name' => 'Élève Démo',
+                'name' => 'Étudiant Démo',
                 'email' => 'eleve@pigier.test',
                 'password' => 'password',
                 'role' => 'eleve',

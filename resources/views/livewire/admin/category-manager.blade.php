@@ -128,9 +128,9 @@
                         <div>
                             <label class="field-label">Qui peut voter</label>
                             <select wire:model="voter_type" class="select">
-                                <option value="eleve">Élèves</option>
+                                <option value="eleve">Étudiants</option>
                                 <option value="professeur">Professeurs</option>
-                                <option value="both">Élèves et professeurs</option>
+                                <option value="both">Étudiants et professeurs</option>
                             </select>
                         </div>
                         <div>

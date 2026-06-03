@@ -142,9 +142,9 @@ class Category extends Model
     public function voterTypeLabel(): string
     {
         return match ($this->voter_type) {
-            'eleve' => 'Élèves',
+            'eleve' => 'Étudiants',
             'professeur' => 'Professeurs',
-            'both' => 'Élèves & Professeurs',
+            'both' => 'Étudiants & Professeurs',
             default => $this->voter_type,
         };
     }

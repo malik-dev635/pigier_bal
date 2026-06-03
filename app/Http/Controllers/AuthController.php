@@ -59,7 +59,7 @@ class AuthController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | Inscription libre (rôle « élève » uniquement)
+    | Inscription libre (rôle « étudiant » uniquement)
     |--------------------------------------------------------------------------
     */
     public function showRegister(): View|RedirectResponse
