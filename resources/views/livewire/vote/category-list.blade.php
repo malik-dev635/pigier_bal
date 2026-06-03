@@ -1,9 +1,9 @@
 <div>
     <div class="mb-8">
         <p class="eyebrow">Pigier's Élites Awards 2026</p>
-        <h1 class="mt-2 text-3xl sm:text-4xl">Les récompenses</h1>
+        <h1 class="mt-2 text-3xl sm:text-4xl">Votez pour vos favoris</h1>
         <p class="mt-3 max-w-2xl text-sm text-muted">
-            Choisissez une récompense pour découvrir les nominés et soutenir votre favori. Un seul vote par récompense.
+            Parcourez les récompenses, découvrez les nominés et soutenez celles et ceux qui le méritent. Un seul vote par récompense — à vous de jouer&nbsp;!
         </p>
     </div>
 
