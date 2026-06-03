@@ -19,11 +19,13 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    if (! Auth::check()) {
-        return redirect()->route('login');
+    // Les utilisateurs connectés vont directement à leur espace.
+    if (Auth::check()) {
+        return redirect()->to(AuthController::homeFor(Auth::user()));
     }
 
-    return redirect()->to(AuthController::homeFor(Auth::user()));
+    // Les visiteurs voient la page d'accueil (affiche + connexion / inscription).
+    return view('home');
 })->name('home');
 
 /*
