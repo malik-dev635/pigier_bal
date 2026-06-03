@@ -29,13 +29,13 @@
             <p class="text-sm text-muted">Aucune récompense ne vous est ouverte pour le moment.</p>
         </div>
     @else
-        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
             @foreach($categories as $category)
                 @php $hasVoted = in_array($category->id, $votedCategoryIds); @endphp
                 <a href="{{ route('vote.category', $category->slug) }}" class="card card-hover flex flex-col overflow-hidden {{ $hasVoted ? 'opacity-70 transition-opacity hover:opacity-100' : '' }}">
                     @if($category->image_url)
-                        <div class="flex aspect-[4/5] w-full items-center justify-center overflow-hidden border-b border-line bg-bg-surface">
-                            <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="h-full w-full object-contain">
+                        <div class="overflow-hidden border-b border-line">
+                            <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="block w-full">
                         </div>
                     @endif
 
