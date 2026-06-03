@@ -13,10 +13,10 @@
 <body class="min-h-screen">
     <header class="sticky top-0 z-40 border-b border-line bg-bg-primary/95 backdrop-blur">
         <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-            <a href="{{ route('admin.home') }}" class="flex shrink-0 items-center gap-2 sm:gap-2.5">
+            <div class="flex shrink-0 items-center gap-2 sm:gap-2.5">
                 @include('partials.brand-logos', ['size' => 'h-7 w-auto sm:h-9'])
                 <span class="eyebrow hidden text-[10px] sm:inline">Administration</span>
-            </a>
+            </div>
             <div class="flex shrink-0 items-center gap-3 sm:gap-4">
                 <a href="{{ route('vote.index') }}" class="text-sm font-medium text-muted hover:text-offwhite">Voir le site</a>
                 <form method="POST" action="{{ route('logout') }}">

@@ -14,9 +14,9 @@
     <header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-line bg-bg-primary/95 backdrop-blur">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <div class="flex h-16 items-center justify-between gap-4">
-                <a href="{{ route('vote.index') }}" class="flex shrink-0 items-center gap-2 sm:gap-2.5">
+                <div class="flex shrink-0 items-center gap-2 sm:gap-2.5">
                     @include('partials.brand-logos', ['size' => 'h-7 w-auto sm:h-9'])
-                </a>
+                </div>
 
                 {{-- Navigation bureau --}}
                 <nav class="hidden items-center gap-1 sm:flex">

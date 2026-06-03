@@ -13,9 +13,9 @@
     {{-- Navbar : pblog + bal + awards à gauche, actions à droite --}}
     <header class="border-b border-line">
         <div class="mx-auto flex max-w-6xl flex-col items-center gap-3 px-4 py-3 sm:flex-row sm:justify-between sm:gap-4 sm:px-6 sm:py-4">
-            <a href="{{ route('home') }}" class="flex items-center gap-2.5 sm:gap-4">
+            <div class="flex items-center gap-2.5 sm:gap-4">
                 @include('partials.brand-logos', ['size' => 'h-7 w-auto sm:h-11'])
-            </a>
+            </div>
             <nav class="flex shrink-0 items-center gap-2 sm:gap-3">
                 <a href="{{ route('login') }}" class="btn-secondary btn-sm sm:px-5 sm:py-2.5 sm:text-sm">Connexion</a>
                 <a href="{{ route('register') }}" class="btn-primary btn-sm sm:px-5 sm:py-2.5 sm:text-sm">Inscription</a>
