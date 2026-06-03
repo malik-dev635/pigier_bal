@@ -11,17 +11,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="flex min-h-screen items-start justify-center px-4 py-10">
-    <div class="w-full max-w-lg">
-        <div class="mb-6 text-center">
-            <div class="mb-4 flex items-center justify-center gap-3">
-                <img src="{{ asset('images/logo-bal.png') }}" alt="Bal de fin d'année" class="h-10 w-auto sm:h-11">
-                <img src="{{ asset('images/logo-pigier-award.png') }}" alt="Pigier's Élites Awards" class="h-10 w-auto sm:h-11">
+<body class="flex min-h-screen flex-col">
+    <main class="flex flex-1 items-start justify-center px-4 py-10">
+        <div class="w-full max-w-lg">
+            <div class="mb-6 text-center">
+                <div class="mb-4 flex flex-wrap items-center justify-center gap-3">
+                    @include('partials.brand-logos', ['size' => 'h-9 w-auto sm:h-11'])
+                </div>
+                <h1 class="text-2xl">Candidature</h1>
             </div>
-            <h1 class="text-2xl">Candidature</h1>
+            {{ $slot }}
         </div>
-        {{ $slot }}
-    </div>
+    </main>
+
+    @include('partials.footer')
     @livewireScripts
 </body>
 </html>

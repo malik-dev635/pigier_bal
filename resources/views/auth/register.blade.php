@@ -9,12 +9,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="flex min-h-screen items-center justify-center px-4 py-10">
+<body class="flex min-h-screen flex-col">
+    <main class="flex flex-1 items-center justify-center px-4 py-10">
     <div class="w-full max-w-sm">
         <div class="mb-8 text-center">
-            <div class="flex items-center justify-center gap-3">
-                <img src="{{ asset('images/logo-bal.png') }}" alt="Bal de fin d'année" class="h-11 w-auto sm:h-12">
-                <img src="{{ asset('images/logo-pigier-award.png') }}" alt="Pigier's Élites Awards" class="h-11 w-auto sm:h-12">
+            <div class="flex flex-wrap items-center justify-center gap-3">
+                @include('partials.brand-logos', ['size' => 'h-9 w-auto sm:h-11'])
             </div>
             <p class="mt-3 text-sm text-muted">Bal de fin d'année 2026</p>
         </div>
@@ -64,5 +64,8 @@
             </p>
         </div>
     </div>
+    </main>
+
+    @include('partials.footer')
 </body>
 </html>

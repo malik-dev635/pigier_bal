@@ -10,13 +10,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="min-h-screen">
+<body class="flex min-h-screen flex-col">
     <header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-line bg-bg-primary/95 backdrop-blur">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <div class="flex h-16 items-center justify-between gap-4">
-                <a href="{{ route('vote.index') }}" class="flex shrink-0 items-center gap-2 sm:gap-3">
-                    <img src="{{ asset('images/logo-bal.png') }}" alt="Bal de fin d'année" class="h-8 w-auto sm:h-9">
-                    <img src="{{ asset('images/logo-pigier-award.png') }}" alt="Pigier's Élites Awards" class="h-8 w-auto sm:h-9">
+                <a href="{{ route('vote.index') }}" class="flex shrink-0 items-center gap-2 sm:gap-2.5">
+                    @include('partials.brand-logos', ['size' => 'h-7 w-auto sm:h-9'])
                 </a>
 
                 {{-- Navigation bureau --}}
@@ -64,10 +63,13 @@
         </div>
     </header>
 
-    <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-        {{ $slot }}
+    <main class="w-full flex-1">
+        <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+            {{ $slot }}
+        </div>
     </main>
 
+    @include('partials.footer')
     @include('layouts.partials.toast')
     @livewireScripts
 </body>
