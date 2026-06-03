@@ -92,12 +92,14 @@ class Nominee extends Model
 
     public function getPhotoUrlAttribute(): ?string
     {
-        return $this->photo ? Storage::url($this->photo) : null;
+        // url() préfixe avec le bon dossier (ex: /bal) en sous-dossier, et reste
+        // correct en local. Storage::url() seul renvoie un chemin relatif à la racine.
+        return $this->photo ? url(Storage::url($this->photo)) : null;
     }
 
     public function getProofFileUrlAttribute(): ?string
     {
-        return $this->proof_file ? Storage::url($this->proof_file) : null;
+        return $this->proof_file ? url(Storage::url($this->proof_file)) : null;
     }
 
     /**

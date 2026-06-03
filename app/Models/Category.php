@@ -109,7 +109,8 @@ class Category extends Model
     */
     public function getImageUrlAttribute(): ?string
     {
-        return $this->image ? Storage::url($this->image) : null;
+        // url() préfixe avec le bon dossier (ex: /bal) en sous-dossier.
+        return $this->image ? url(Storage::url($this->image)) : null;
     }
 
     public function isOpen(): bool
