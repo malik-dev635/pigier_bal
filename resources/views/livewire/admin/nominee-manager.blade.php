@@ -82,7 +82,7 @@
 
                     <div>
                         <label class="field-label">Classe <span class="font-normal text-muted">(facultatif)</span></label>
-                        <input type="text" wire:model="class" class="input" placeholder="Ex : BTS 2 Marketing">
+                        <input type="text" wire:model="class" class="input" placeholder="Ex : RGL3A">
                     </div>
 
                     <div>

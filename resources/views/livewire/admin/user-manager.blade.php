@@ -98,7 +98,7 @@
                         </div>
                         <div>
                             <label class="field-label">Classe <span class="font-normal text-muted">(facultatif)</span></label>
-                            <input type="text" wire:model="class" class="input">
+                            <input type="text" wire:model="class" class="input" placeholder="Ex : RGL3A">
                         </div>
                     </div>
                     <div>

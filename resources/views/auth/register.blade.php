@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <label for="class" class="field-label">Classe <span class="font-normal text-muted">(facultatif)</span></label>
-                    <input id="class" type="text" name="class" value="{{ old('class') }}" class="input" placeholder="Ex : BTS 2 Marketing">
+                    <input id="class" type="text" name="class" value="{{ old('class') }}" class="input" placeholder="Ex : RGL3A">
                 </div>
                 <div>
                     <label for="login" class="field-label">Email ou téléphone</label>
