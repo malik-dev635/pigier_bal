@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion — Pigier's Élites Awards</title>
+    @include('partials.og-meta', ['ogDescription' => "Connectez-vous pour voter aux Pigier's Élites Awards — Bal de fin d'année 2026."])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
