@@ -17,8 +17,8 @@
                 @php $hasVoted = in_array($category->id, $votedCategoryIds); @endphp
                 <a href="{{ route('vote.category', $category->slug) }}" class="card card-hover flex flex-col overflow-hidden">
                     @if($category->image_url)
-                        <div class="aspect-[16/9] w-full overflow-hidden border-b border-line">
-                            <img src="{{ $category->image_url }}" alt="" class="h-full w-full object-cover">
+                        <div class="flex aspect-[4/5] w-full items-center justify-center overflow-hidden border-b border-line bg-bg-surface">
+                            <img src="{{ $category->image_url }}" alt="{{ $category->name }}" class="h-full w-full object-contain">
                         </div>
                     @endif
 
