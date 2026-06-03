@@ -7,6 +7,7 @@ use App\Livewire\Admin\Home as AdminHome;
 use App\Livewire\Admin\NomineeManager;
 use App\Livewire\Admin\Results;
 use App\Livewire\Admin\UserManager;
+use App\Livewire\Public\CandidacyForm;
 use App\Livewire\Vote\CategoryList;
 use App\Livewire\Vote\CategoryVote;
 use App\Livewire\Vote\VoteHistory;
@@ -44,6 +45,13 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Candidature publique (lien privé par récompense)
+|--------------------------------------------------------------------------
+*/
+Route::get('/candidature/{token}', CandidacyForm::class)->name('candidacy.show');
 
 /*
 |--------------------------------------------------------------------------

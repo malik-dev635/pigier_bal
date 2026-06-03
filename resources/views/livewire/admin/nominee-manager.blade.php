@@ -26,7 +26,7 @@
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         @forelse($nominees as $nominee)
-            <div wire:key="nom-{{ $nominee->id }}" class="card flex flex-col p-5">
+            <div wire:key="nom-{{ $nominee->id }}" class="card flex flex-col p-5 {{ $nominee->is_approved ? '' : 'border-gold-main/60' }}">
                 <div class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-line bg-bg-surface">
                     @if($nominee->photo_url)
                         <img src="{{ $nominee->photo_url }}" alt="" class="h-full w-full object-cover">
@@ -43,14 +43,18 @@
                 </div>
 
                 <div class="mt-3 flex flex-wrap gap-2">
+                    @unless($nominee->is_approved)<span class="badge-gold">Candidature en attente</span>@endunless
                     @unless($nominee->is_active)<span class="badge-muted">Inactif</span>@endunless
                     @if($nominee->proof_url)<span class="badge-muted">Lien</span>@endif
                     @if($nominee->proof_file)<span class="badge-muted">Fichier</span>@endif
                 </div>
 
                 <div class="mt-4 flex gap-2 border-t border-line pt-4">
+                    @unless($nominee->is_approved)
+                        <button wire:click="approve({{ $nominee->id }})" class="btn-primary btn-sm flex-1">Approuver</button>
+                    @endunless
                     <button wire:click="edit({{ $nominee->id }})" class="btn-secondary btn-sm flex-1">Modifier</button>
-                    <button wire:click="delete({{ $nominee->id }})" wire:confirm="Supprimer ce nominé ?" class="btn-danger btn-sm">Supprimer</button>
+                    <button wire:click="delete({{ $nominee->id }})" wire:confirm="{{ $nominee->is_approved ? 'Supprimer ce nominé ?' : 'Rejeter cette candidature ?' }}" class="btn-danger btn-sm">{{ $nominee->is_approved ? 'Suppr.' : 'Rejeter' }}</button>
                 </div>
             </div>
         @empty

@@ -125,6 +125,17 @@ class CategoryManager extends Component
             : 'Vote clôturé pour « '.$category->name.' ».');
     }
 
+    public function toggleCandidacy(int $id): void
+    {
+        $category = Category::findOrFail($id);
+        $this->authorize('toggle', $category);
+        $category->update(['candidacy_open' => ! $category->candidacy_open]);
+
+        $this->dispatch('toast', message: $category->candidacy_open
+            ? 'Candidatures ouvertes pour « '.$category->name.' ».'
+            : 'Candidatures fermées pour « '.$category->name.' ».');
+    }
+
     public function delete(int $id): void
     {
         $category = Category::findOrFail($id);

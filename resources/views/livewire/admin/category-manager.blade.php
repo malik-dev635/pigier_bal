@@ -61,6 +61,29 @@
                                     class="btn-danger btn-sm">Supprimer</button>
                         </div>
                     </div>
+
+                    {{-- Lien de candidature privé --}}
+                    <div class="mt-4 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-end sm:justify-between">
+                        <div class="min-w-0 flex-1" x-data="{ copied: false }">
+                            <p class="eyebrow mb-1 text-[10px]">Lien de candidature (privé)</p>
+                            <div class="flex items-center gap-2">
+                                <input type="text" readonly value="{{ $category->candidacyUrl() }}"
+                                       x-ref="link" @focus="$el.select()"
+                                       class="input !py-1.5 text-xs">
+                                <button type="button" class="btn-secondary btn-sm shrink-0"
+                                        @click="navigator.clipboard.writeText($refs.link.value); copied = true; setTimeout(() => copied = false, 1500)">
+                                    <span x-show="!copied">Copier</span>
+                                    <span x-show="copied" x-cloak>Copié</span>
+                                </button>
+                            </div>
+                        </div>
+                        <button wire:click="toggleCandidacy({{ $category->id }})" class="btn-secondary btn-sm shrink-0"
+                                title="Ouvrir ou fermer les candidatures">
+                            <span class="status {{ $category->candidacy_open ? 'status-open' : 'status-closed' }}">
+                                <span class="status-dot"></span>{{ $category->candidacy_open ? 'Candidatures ouvertes' : 'Candidatures fermées' }}
+                            </span>
+                        </button>
+                    </div>
                 </div>
             @endforeach
         </div>

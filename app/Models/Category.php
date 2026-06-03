@@ -23,6 +23,8 @@ class Category extends Model
         'max_nominees',
         'requires_proof',
         'proof_type',
+        'candidacy_token',
+        'candidacy_open',
     ];
 
     protected function casts(): array
@@ -31,17 +33,21 @@ class Category extends Model
             'is_active' => 'boolean',
             'requires_proof' => 'boolean',
             'max_nominees' => 'integer',
+            'candidacy_open' => 'boolean',
         ];
     }
 
     /**
-     * Génère automatiquement le slug à partir du nom.
+     * Génère automatiquement le slug et le jeton de candidature.
      */
     protected static function booted(): void
     {
         static::saving(function (Category $category) {
             if (blank($category->slug)) {
                 $category->slug = static::uniqueSlug($category->name, $category->id);
+            }
+            if (blank($category->candidacy_token)) {
+                $category->candidacy_token = Str::random(40);
             }
         });
     }
@@ -116,6 +122,11 @@ class Category extends Model
     public function isOpen(): bool
     {
         return $this->is_active;
+    }
+
+    public function candidacyUrl(): string
+    {
+        return route('candidacy.show', $this->candidacy_token);
     }
 
     public function needsUrl(): bool

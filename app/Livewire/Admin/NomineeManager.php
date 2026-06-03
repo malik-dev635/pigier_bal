@@ -150,6 +150,15 @@ class NomineeManager extends Component
         $this->dispatch('toast', message: $message);
     }
 
+    public function approve(int $id): void
+    {
+        $nominee = Nominee::findOrFail($id);
+        $this->authorize('update', $nominee);
+        $nominee->update(['is_approved' => true, 'is_active' => true]);
+
+        $this->dispatch('toast', message: 'Candidature approuvée — visible au vote.');
+    }
+
     public function delete(int $id): void
     {
         $nominee = Nominee::findOrFail($id);
@@ -178,6 +187,7 @@ class NomineeManager extends Component
         $nominees = Nominee::query()
             ->when($this->categoryId, fn ($q) => $q->where('category_id', $this->categoryId))
             ->withCount('votes')
+            ->orderBy('is_approved') // candidatures en attente d'abord
             ->orderBy('last_name')
             ->get();
 
