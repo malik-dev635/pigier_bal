@@ -3,7 +3,7 @@
         <p class="eyebrow">Pigier's Élites Awards 2026</p>
         <h1 class="mt-2 text-3xl sm:text-4xl">Votez pour vos favoris</h1>
         <p class="mt-3 max-w-2xl text-sm text-muted">
-            Parcourez les récompenses, découvrez les nominés et soutenez celles et ceux qui le méritent. Un seul vote par récompense — à vous de jouer&nbsp;!
+            Parcourez les récompenses, découvrez les nominés et soutenez celles et ceux qui le méritent. Un seul vote par récompense ,  à vous de jouer&nbsp;!
         </p>
 
         @if($totalCount > 0)
