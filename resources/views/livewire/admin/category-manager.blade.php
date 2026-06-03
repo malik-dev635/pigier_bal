@@ -21,7 +21,7 @@
     @else
         <div class="space-y-3">
             @foreach($categories as $category)
-                <div class="card p-4 sm:p-5">
+                <div wire:key="cat-{{ $category->id }}" class="card p-4 sm:p-5">
                     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                         {{-- Infos --}}
                         <div class="flex items-center gap-3 min-w-0">

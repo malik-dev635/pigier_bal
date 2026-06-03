@@ -35,7 +35,7 @@
             </thead>
             <tbody>
                 @forelse($users as $user)
-                    <tr>
+                    <tr wire:key="user-{{ $user->id }}">
                         <td class="font-medium text-white">{{ $user->name }}</td>
                         <td class="text-muted">{{ $user->email ?? $user->phone ?? '—' }}</td>
                         <td>

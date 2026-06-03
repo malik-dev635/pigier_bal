@@ -15,7 +15,7 @@
     <div class="space-y-4">
         @foreach($categories as $category)
             @php $total = max(1, $category->votes_count); @endphp
-            <div class="card p-5">
+            <div wire:key="res-{{ $category->id }}" class="card p-5">
                 <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h2 class="text-lg font-semibold text-white">{{ $category->name }}</h2>

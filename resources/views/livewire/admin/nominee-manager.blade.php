@@ -26,7 +26,7 @@
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         @forelse($nominees as $nominee)
-            <div class="card flex flex-col p-5">
+            <div wire:key="nom-{{ $nominee->id }}" class="card flex flex-col p-5">
                 <div class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-line bg-bg-surface">
                     @if($nominee->photo_url)
                         <img src="{{ $nominee->photo_url }}" alt="" class="h-full w-full object-cover">
