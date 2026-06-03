@@ -12,8 +12,11 @@
 <body class="flex min-h-screen items-center justify-center px-4 py-10">
     <div class="w-full max-w-sm">
         <div class="mb-8 text-center">
-            <h1 class="text-xl font-semibold text-white">Pigier's Élites Awards</h1>
-            <p class="mt-1 text-sm text-muted">Bal de fin d'année 2026</p>
+            <div class="flex items-center justify-center gap-3">
+                <img src="{{ asset('images/logo-bal.png') }}" alt="Bal de fin d'année" class="h-11 w-auto sm:h-12">
+                <img src="{{ asset('images/logo-pigier-award.png') }}" alt="Pigier's Élites Awards" class="h-11 w-auto sm:h-12">
+            </div>
+            <p class="mt-3 text-sm text-muted">Bal de fin d'année 2026</p>
         </div>
 
         <div class="card p-6">

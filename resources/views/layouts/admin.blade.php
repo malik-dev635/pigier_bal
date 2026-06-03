@@ -13,9 +13,10 @@
 <body class="min-h-screen">
     <header class="sticky top-0 z-40 border-b border-line bg-bg-primary/95 backdrop-blur">
         <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-            <a href="{{ route('admin.home') }}" class="flex min-w-0 flex-col leading-tight">
-                <span class="display truncate text-base text-white sm:text-lg">Pigier's Élites Awards</span>
-                <span class="eyebrow text-[10px]">Administration</span>
+            <a href="{{ route('admin.home') }}" class="flex shrink-0 items-center gap-2 sm:gap-3">
+                <img src="{{ asset('images/logo-bal.png') }}" alt="Bal de fin d'année" class="h-8 w-auto sm:h-9">
+                <img src="{{ asset('images/logo-pigier-award.png') }}" alt="Pigier's Élites Awards" class="h-8 w-auto sm:h-9">
+                <span class="eyebrow hidden text-[10px] sm:inline">Administration</span>
             </a>
             <div class="flex shrink-0 items-center gap-3 sm:gap-4">
                 <a href="{{ route('vote.index') }}" class="text-sm font-medium text-muted hover:text-offwhite">Voir le site</a>

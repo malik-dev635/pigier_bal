@@ -14,9 +14,9 @@
     <header x-data="{ open: false }" class="sticky top-0 z-40 border-b border-line bg-bg-primary/95 backdrop-blur">
         <div class="mx-auto max-w-6xl px-4 sm:px-6">
             <div class="flex h-16 items-center justify-between gap-4">
-                <a href="{{ route('vote.index') }}" class="flex flex-col leading-tight">
-                    <span class="text-base font-semibold text-white">Pigier's Élites Awards</span>
-                    <span class="text-xs text-muted">Bal de fin d'année 2026</span>
+                <a href="{{ route('vote.index') }}" class="flex shrink-0 items-center gap-2 sm:gap-3">
+                    <img src="{{ asset('images/logo-bal.png') }}" alt="Bal de fin d'année" class="h-8 w-auto sm:h-9">
+                    <img src="{{ asset('images/logo-pigier-award.png') }}" alt="Pigier's Élites Awards" class="h-8 w-auto sm:h-9">
                 </a>
 
                 {{-- Navigation bureau --}}

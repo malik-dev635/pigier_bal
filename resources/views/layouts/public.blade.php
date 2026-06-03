@@ -14,8 +14,11 @@
 <body class="flex min-h-screen items-start justify-center px-4 py-10">
     <div class="w-full max-w-lg">
         <div class="mb-6 text-center">
-            <p class="eyebrow">Pigier's Élites Awards 2026</p>
-            <h1 class="mt-2 text-2xl">Candidature</h1>
+            <div class="mb-4 flex items-center justify-center gap-3">
+                <img src="{{ asset('images/logo-bal.png') }}" alt="Bal de fin d'année" class="h-10 w-auto sm:h-11">
+                <img src="{{ asset('images/logo-pigier-award.png') }}" alt="Pigier's Élites Awards" class="h-10 w-auto sm:h-11">
+            </div>
+            <h1 class="text-2xl">Candidature</h1>
         </div>
         {{ $slot }}
     </div>
