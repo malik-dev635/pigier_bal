@@ -25,9 +25,18 @@ class CategoryList extends Component
 
         $votedCategoryIds = $user->votes()->pluck('category_id')->all();
 
+        // On remonte les récompenses où l'utilisateur n'a pas encore voté,
+        // et on fait descendre celles déjà votées (tri stable : conserve l'ordre
+        // ouvert/nom à l'intérieur de chaque groupe).
+        $categories = $categories
+            ->sortBy(fn ($c) => in_array($c->id, $votedCategoryIds) ? 1 : 0)
+            ->values();
+
         return view('livewire.vote.category-list', [
             'categories' => $categories,
             'votedCategoryIds' => $votedCategoryIds,
+            'votedCount' => count(array_intersect($votedCategoryIds, $categories->pluck('id')->all())),
+            'totalCount' => $categories->count(),
         ]);
     }
 }
