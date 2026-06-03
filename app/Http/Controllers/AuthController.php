@@ -126,7 +126,9 @@ class AuthController extends Controller
 
         $user->assignRole('eleve');
 
-        Auth::login($user);
+        // true = « se souvenir » : l'utilisateur reste connecté longtemps
+        // (cookie remember), idéal pour le soir du bal.
+        Auth::login($user, true);
         $request->session()->regenerate();
 
         // Marque l'appareil pour empêcher une nouvelle inscription depuis ce navigateur.

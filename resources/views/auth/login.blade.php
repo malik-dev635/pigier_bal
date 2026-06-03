@@ -38,7 +38,7 @@
                     <input id="password" type="password" name="password" required class="input" placeholder="Votre mot de passe">
                 </div>
                 <label class="flex items-center gap-2 text-sm text-muted">
-                    <input type="checkbox" name="remember" class="checkbox">
+                    <input type="checkbox" name="remember" class="checkbox" @checked(old('remember', true))>
                     Rester connecté
                 </label>
                 <button type="submit" class="btn-primary w-full">Se connecter</button>
