@@ -14,7 +14,7 @@
     <header class="absolute inset-x-0 top-0 z-20">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
             <a href="{{ route('home') }}" class="flex items-center">
-                <img src="{{ asset('images/logo.png') }}" alt="pblog" class="h-9 w-auto sm:h-11">
+                <img src="{{ asset('images/logo-pblog-affiche.png') }}" alt="pblog" class="h-10 w-auto sm:h-12">
             </a>
             <nav class="flex items-center gap-2 sm:gap-3">
                 <a href="{{ route('login') }}" class="btn-secondary btn-sm sm:px-5 sm:py-2.5 sm:text-sm">Connexion</a>
