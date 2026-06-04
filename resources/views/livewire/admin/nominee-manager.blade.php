@@ -103,7 +103,7 @@
                         <input type="file" wire:model="photo" accept="image/*" class="input py-2">
                         <div wire:loading wire:target="photo" class="field-hint">Chargement…</div>
                         @error('photo') <p class="field-error">{{ $message }}</p> @enderror
-                        @if($photo)
+                        @if($photo && $photo->isPreviewable())
                             <img src="{{ $photo->temporaryUrl() }}" class="mt-2 h-20 rounded-lg border border-line object-cover">
                         @endif
                     </div>

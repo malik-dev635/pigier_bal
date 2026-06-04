@@ -114,7 +114,7 @@
                         <div wire:loading wire:target="image" class="field-hint">Chargement…</div>
                         @error('image') <p class="field-error">{{ $message }}</p> @enderror
                         <div class="mt-2 flex items-center gap-3">
-                            @if($image)
+                            @if($image && $image->isPreviewable())
                                 <img src="{{ $image->temporaryUrl() }}" class="h-16 rounded-lg border border-line object-cover">
                                 <span class="text-xs text-muted">Nouvelle affiche</span>
                             @elseif($existingImage)

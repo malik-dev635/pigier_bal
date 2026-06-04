@@ -62,7 +62,7 @@
                     <p class="field-hint">Une photo <strong>de vous</strong> — elle apparaîtra sur le bulletin de vote. Obligatoire.</p>
                     <div wire:loading wire:target="photo" class="field-hint">Chargement…</div>
                     @error('photo') <p class="field-error">{{ $message }}</p> @enderror
-                    @if($photo)
+                    @if($photo && $photo->isPreviewable())
                         <img src="{{ $photo->temporaryUrl() }}" class="mt-2 h-24 border border-line object-cover">
                     @endif
                 </div>

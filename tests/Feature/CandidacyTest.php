@@ -85,6 +85,22 @@ class CandidacyTest extends TestCase
         \Illuminate\Support\Facades\Storage::disk('public')->assertExists($n->proof_file);
     }
 
+    public function test_photo_format_non_image_refusee(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $cat = Category::create(['name' => 'Cat Img', 'voter_type' => 'eleve', 'is_active' => true, 'candidacy_open' => true]);
+
+        Livewire::test(CandidacyForm::class, ['token' => $cat->candidacy_token])
+            ->set('first_name', 'Test')
+            ->set('last_name', 'Format')
+            ->set('photo', \Illuminate\Http\UploadedFile::fake()->create('document.pdf', 50, 'application/pdf'))
+            ->call('submit')
+            ->assertHasErrors(['photo'])
+            ->assertSet('submitted', false);
+
+        $this->assertEquals(0, Nominee::count(), 'Aucune candidature ne doit être créée.');
+    }
+
     public function test_soumission_bloquee_si_candidatures_fermees(): void
     {
         $cat = Category::create(['name' => 'Cat Fermee', 'voter_type' => 'eleve', 'is_active' => true, 'candidacy_open' => false]);
