@@ -134,10 +134,18 @@
                             </select>
                         </div>
                         <div>
-                            <label class="field-label">Nominés maximum</label>
-                            <input type="number" min="1" wire:model="max_nominees" class="input">
-                            @error('max_nominees') <p class="field-error">{{ $message }}</p> @enderror
+                            <label class="field-label">Type de nominé</label>
+                            <select wire:model="nominee_type" class="select">
+                                <option value="person">Personne (Prénom + Nom)</option>
+                                <option value="entity">Association / club / événement</option>
+                            </select>
                         </div>
+                    </div>
+
+                    <div>
+                        <label class="field-label">Nominés maximum</label>
+                        <input type="number" min="1" wire:model="max_nominees" class="input max-w-[160px]">
+                        @error('max_nominees') <p class="field-error">{{ $message }}</p> @enderror
                     </div>
 
                     <label class="flex items-center gap-2.5 text-sm text-offwhite">

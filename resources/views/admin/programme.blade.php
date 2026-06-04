@@ -93,11 +93,11 @@
                     </select>
                 </div>
                 <div>
-                    <label>Prénom</label>
-                    <input type="text" name="first_name" required>
+                    <label>Prénom <span style="color:#777">(vide si association)</span></label>
+                    <input type="text" name="first_name">
                 </div>
                 <div>
-                    <label>Nom</label>
+                    <label>Nom (ou nom de l'association)</label>
                     <input type="text" name="last_name" required>
                 </div>
                 <div>

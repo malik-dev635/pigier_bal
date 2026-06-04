@@ -34,6 +34,9 @@ class CategoryManager extends Component
     #[Validate('required|in:eleve,professeur,both')]
     public string $voter_type = 'eleve';
 
+    #[Validate('required|in:person,entity')]
+    public string $nominee_type = 'person';
+
     #[Validate('required|integer|min:1|max:50')]
     public int $max_nominees = 5;
 
@@ -71,6 +74,7 @@ class CategoryManager extends Component
         $this->name = $category->name;
         $this->description = $category->description;
         $this->voter_type = $category->voter_type;
+        $this->nominee_type = $category->nominee_type;
         $this->max_nominees = $category->max_nominees;
         $this->is_active = $category->is_active;
         $this->requires_proof = $category->requires_proof;
@@ -88,6 +92,7 @@ class CategoryManager extends Component
             'name' => $this->name,
             'description' => $this->description,
             'voter_type' => $this->voter_type,
+            'nominee_type' => $this->nominee_type,
             'max_nominees' => $this->max_nominees,
             'is_active' => $this->is_active,
             'requires_proof' => $this->requires_proof,
@@ -148,7 +153,7 @@ class CategoryManager extends Component
     public function resetForm(): void
     {
         $this->reset([
-            'editingId', 'name', 'description', 'voter_type',
+            'editingId', 'name', 'description', 'voter_type', 'nominee_type',
             'max_nominees', 'is_active', 'requires_proof', 'proof_type',
             'image', 'existingImage',
         ]);

@@ -101,6 +101,26 @@ class CandidacyTest extends TestCase
         $this->assertEquals(0, Nominee::count(), 'Aucune candidature ne doit être créée.');
     }
 
+    public function test_candidature_entite_un_seul_nom(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $cat = Category::create([
+            'name' => 'Meilleur Club', 'voter_type' => 'eleve', 'nominee_type' => 'entity',
+            'is_active' => true, 'candidacy_open' => true,
+        ]);
+
+        Livewire::test(CandidacyForm::class, ['token' => $cat->candidacy_token])
+            ->set('last_name', 'Club Robotique Pigier') // pas de prénom
+            ->set('photo', \Illuminate\Http\UploadedFile::fake()->image('logo.png'))
+            ->call('submit')
+            ->assertHasNoErrors()
+            ->assertSet('submitted', true);
+
+        $n = Nominee::where('last_name', 'Club Robotique Pigier')->first();
+        $this->assertNotNull($n);
+        $this->assertEquals('Club Robotique Pigier', $n->full_name, 'Le nom complet doit être le nom de l\'entité.');
+    }
+
     public function test_soumission_bloquee_si_candidatures_fermees(): void
     {
         $cat = Category::create(['name' => 'Cat Fermee', 'voter_type' => 'eleve', 'is_active' => true, 'candidacy_open' => false]);

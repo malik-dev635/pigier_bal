@@ -19,6 +19,7 @@ class Category extends Model
         'description',
         'image',
         'voter_type',
+        'nominee_type',
         'is_active',
         'max_nominees',
         'requires_proof',
@@ -127,6 +128,18 @@ class Category extends Model
     public function candidacyUrl(): string
     {
         return route('candidacy.show', $this->candidacy_token);
+    }
+
+    /** Les nominés sont-ils des entités (association, club, événement) ? */
+    public function isEntity(): bool
+    {
+        return $this->nominee_type === 'entity';
+    }
+
+    /** Libellé du champ « nom » selon le type de nominé. */
+    public function nameLabel(): string
+    {
+        return $this->isEntity() ? "Nom de l'association / du groupe" : 'Nom';
     }
 
     public function needsUrl(): bool

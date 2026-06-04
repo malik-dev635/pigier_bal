@@ -36,7 +36,7 @@ class CandidacyForm extends Component
     protected function rules(): array
     {
         $rules = [
-            'first_name' => 'required|string|max:255',
+            'first_name' => ($this->category->isEntity() ? 'nullable' : 'required').'|string|max:255',
             'last_name' => 'required|string|max:255',
             'class' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:2000',

@@ -17,7 +17,7 @@
                         @if($vote->nominee?->photo_url)
                             <img src="{{ $vote->nominee->photo_url }}" alt="" class="h-full w-full object-cover">
                         @else
-                            <span class="text-sm font-semibold text-muted">{{ strtoupper(substr($vote->nominee?->first_name ?? '?',0,1)) }}</span>
+                            <span class="text-sm font-semibold text-muted">{{ $vote->nominee?->initials ?? '?' }}</span>
                         @endif
                     </div>
                     <div class="min-w-0 flex-1">

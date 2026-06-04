@@ -39,7 +39,7 @@ class AdminController extends Controller
 
         $data = $request->validate([
             'category_id' => 'required|exists:categories,id',
-            'first_name' => 'required|string|max:255',
+            'first_name' => 'nullable|string|max:255', // vide pour une association/entité
             'last_name' => 'required|string|max:255',
             'class' => 'nullable|string|max:255',
         ]);

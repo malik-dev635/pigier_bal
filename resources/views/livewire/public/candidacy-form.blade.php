@@ -33,23 +33,31 @@
             <p class="mt-3 text-sm text-muted">Remplissez ce formulaire pour proposer votre candidature.</p>
 
             <form wire:submit="submit" class="mt-6 space-y-4">
-                <div class="grid grid-cols-2 gap-4">
+                @if($category->isEntity())
                     <div>
-                        <label class="field-label">Prénom</label>
-                        <input type="text" wire:model="first_name" class="input">
-                        @error('first_name') <p class="field-error">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label class="field-label">Nom</label>
-                        <input type="text" wire:model="last_name" class="input">
+                        <label class="field-label">{{ $category->nameLabel() }}</label>
+                        <input type="text" wire:model="last_name" class="input" placeholder="Ex : Club Robotique Pigier">
                         @error('last_name') <p class="field-error">{{ $message }}</p> @enderror
                     </div>
-                </div>
+                @else
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="field-label">Prénom</label>
+                            <input type="text" wire:model="first_name" class="input">
+                            @error('first_name') <p class="field-error">{{ $message }}</p> @enderror
+                        </div>
+                        <div>
+                            <label class="field-label">Nom</label>
+                            <input type="text" wire:model="last_name" class="input">
+                            @error('last_name') <p class="field-error">{{ $message }}</p> @enderror
+                        </div>
+                    </div>
 
-                <div>
-                    <label class="field-label">Classe <span class="font-normal text-muted">(facultatif)</span></label>
-                    <input type="text" wire:model="class" class="input" placeholder="Ex : RGL3A">
-                </div>
+                    <div>
+                        <label class="field-label">Classe <span class="font-normal text-muted">(facultatif)</span></label>
+                        <input type="text" wire:model="class" class="input" placeholder="Ex : RGL3A">
+                    </div>
+                @endif
 
                 <div>
                     <label class="field-label">Présentation <span class="font-normal text-muted">(facultatif)</span></label>
@@ -57,9 +65,15 @@
                 </div>
 
                 <div>
-                    <label class="field-label">Votre photo <span class="font-normal text-muted">(portrait)</span></label>
-                    <input type="file" wire:model="photo" accept="image/*" class="input py-2">
-                    <p class="field-hint">Une photo <strong>de vous</strong> — elle apparaîtra sur le bulletin de vote. Obligatoire.</p>
+                    @if($category->isEntity())
+                        <label class="field-label">Logo / photo</label>
+                        <input type="file" wire:model="photo" accept="image/*" class="input py-2">
+                        <p class="field-hint">Le logo ou une photo représentative — apparaîtra sur le bulletin de vote. Obligatoire.</p>
+                    @else
+                        <label class="field-label">Votre photo <span class="font-normal text-muted">(portrait)</span></label>
+                        <input type="file" wire:model="photo" accept="image/*" class="input py-2">
+                        <p class="field-hint">Une photo <strong>de vous</strong> — elle apparaîtra sur le bulletin de vote. Obligatoire.</p>
+                    @endif
                     <div wire:loading wire:target="photo" class="field-hint">Chargement…</div>
                     @error('photo') <p class="field-error">{{ $message }}</p> @enderror
                     @if($photo && $photo->isPreviewable())

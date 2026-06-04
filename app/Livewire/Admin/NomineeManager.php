@@ -54,9 +54,12 @@ class NomineeManager extends Component
     {
         $category = $this->category;
 
+        $isEntity = $category && $category->isEntity();
+
         $rules = [
             'categoryId' => 'required|exists:categories,id',
-            'first_name' => 'required|string|max:255',
+            // Pour une entité (association/club), seul « Nom » (last_name) est requis.
+            'first_name' => ($isEntity ? 'nullable' : 'required').'|string|max:255',
             'last_name' => 'required|string|max:255',
             'class' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:2000',

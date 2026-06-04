@@ -31,7 +31,7 @@
                     @if($nominee->photo_url)
                         <img src="{{ $nominee->photo_url }}" alt="" class="h-full w-full object-cover">
                     @else
-                        <span class="text-2xl font-semibold text-muted">{{ strtoupper(substr($nominee->first_name,0,1).substr($nominee->last_name,0,1)) }}</span>
+                        <span class="text-2xl font-semibold text-muted">{{ $nominee->initials }}</span>
                     @endif
                 </div>
                 <div class="flex items-start justify-between gap-2">
@@ -72,23 +72,33 @@
                 <h2 class="text-lg font-semibold text-white">{{ $editingId ? 'Modifier le nominé' : 'Nouveau nominé' }}</h2>
 
                 <form wire:submit="save" class="mt-5 space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
+                    @if($this->category && $this->category->isEntity())
                         <div>
-                            <label class="field-label">Prénom</label>
-                            <input type="text" wire:model="first_name" class="input">
-                            @error('first_name') <p class="field-error">{{ $message }}</p> @enderror
-                        </div>
-                        <div>
-                            <label class="field-label">Nom</label>
-                            <input type="text" wire:model="last_name" class="input">
+                            <label class="field-label">{{ $this->category->nameLabel() }}</label>
+                            <input type="text" wire:model="last_name" class="input" placeholder="Ex : Club Robotique Pigier">
                             @error('last_name') <p class="field-error">{{ $message }}</p> @enderror
                         </div>
-                    </div>
+                    @else
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="field-label">Prénom</label>
+                                <input type="text" wire:model="first_name" class="input">
+                                @error('first_name') <p class="field-error">{{ $message }}</p> @enderror
+                            </div>
+                            <div>
+                                <label class="field-label">Nom</label>
+                                <input type="text" wire:model="last_name" class="input">
+                                @error('last_name') <p class="field-error">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                    @endif
 
-                    <div>
-                        <label class="field-label">Classe <span class="font-normal text-muted">(facultatif)</span></label>
-                        <input type="text" wire:model="class" class="input" placeholder="Ex : RGL3A">
-                    </div>
+                    @unless($this->category && $this->category->isEntity())
+                        <div>
+                            <label class="field-label">Classe <span class="font-normal text-muted">(facultatif)</span></label>
+                            <input type="text" wire:model="class" class="input" placeholder="Ex : RGL3A">
+                        </div>
+                    @endunless
 
                     <div>
                         <label class="field-label">Description <span class="font-normal text-muted">(facultatif)</span></label>

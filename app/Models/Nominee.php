@@ -94,6 +94,19 @@ class Nominee extends Model
         return trim($this->first_name.' '.$this->last_name);
     }
 
+    /** Initiales pour le fallback sans photo (gère personnes et entités). */
+    public function getInitialsAttribute(): string
+    {
+        $parts = preg_split('/\s+/', trim($this->full_name)) ?: [];
+        $parts = array_values(array_filter($parts));
+
+        if (count($parts) >= 2) {
+            return mb_strtoupper(mb_substr($parts[0], 0, 1).mb_substr($parts[1], 0, 1));
+        }
+
+        return mb_strtoupper(mb_substr($this->full_name, 0, 2));
+    }
+
     public function getPhotoUrlAttribute(): ?string
     {
         // url() préfixe avec le bon dossier (ex: /bal) en sous-dossier, et reste

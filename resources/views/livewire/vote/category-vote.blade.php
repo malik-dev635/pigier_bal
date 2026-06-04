@@ -58,7 +58,7 @@
                         @if($nominee->photo_url)
                             <img src="{{ $nominee->photo_url }}" alt="{{ $nominee->full_name }}" class="h-full w-full object-cover">
                         @else
-                            <span class="text-2xl font-semibold text-muted">{{ strtoupper(substr($nominee->first_name,0,1).substr($nominee->last_name,0,1)) }}</span>
+                            <span class="text-2xl font-semibold text-muted">{{ $nominee->initials }}</span>
                         @endif
                     </div>
 
