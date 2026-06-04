@@ -45,6 +45,7 @@
                 <div class="mt-3 flex flex-wrap gap-2">
                     @unless($nominee->is_approved)<span class="badge-gold">Candidature en attente</span>@endunless
                     @unless($nominee->is_active)<span class="badge-muted">Inactif</span>@endunless
+                    @unless($nominee->is_votable)<span class="badge-muted">Hors vote</span>@endunless
                     @if($nominee->proof_url)<span class="badge-muted">Lien</span>@endif
                     @if($nominee->proof_file)<span class="badge-muted">Fichier</span>@endif
                 </div>
@@ -129,7 +130,12 @@
 
                     <label class="flex items-center gap-2.5 text-sm text-offwhite">
                         <input type="checkbox" wire:model="is_active" class="checkbox">
-                        Nominé actif (visible au vote)
+                        Nominé actif
+                    </label>
+
+                    <label class="flex items-center gap-2.5 text-sm text-offwhite">
+                        <input type="checkbox" wire:model="is_votable" class="checkbox">
+                        Présenter au vote <span class="text-muted">(décocher = uniquement dans le programme)</span>
                     </label>
 
                     <div class="flex justify-end gap-3 pt-2">

@@ -76,4 +76,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/resultats', Results::class)->name('results');
     Route::get('/comptes', UserManager::class)->name('users');
     Route::get('/resultats/export', [AdminController::class, 'exportResults'])->name('results.export');
+    Route::get('/programme', [AdminController::class, 'programme'])->name('programme');
+    Route::post('/programme/nomine', [AdminController::class, 'programmeStoreNominee'])->name('programme.nominee');
 });

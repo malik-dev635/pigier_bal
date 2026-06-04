@@ -5,6 +5,7 @@ namespace App\Livewire\Vote;
 use App\Models\Category;
 use App\Models\Nominee;
 use App\Models\Vote;
+use App\Support\Settings;
 use Illuminate\Database\QueryException;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
@@ -18,9 +19,14 @@ class CategoryVote extends Component
     /** Nominé choisi par l'utilisateur (null si pas encore voté). */
     public ?int $votedNomineeId = null;
 
-    public function mount(Category $category): void
+    public function mount(Category $category)
     {
         $user = auth()->user();
+
+        // Votes masqués au public : on renvoie vers le message d'attente.
+        if (Settings::votesHiddenPublic() && ! $user->isAdmin()) {
+            return $this->redirect(route('vote.index'), navigate: true);
+        }
 
         // Vérification serveur du type de votant.
         abort_unless($user->can('participate', $category), 403);

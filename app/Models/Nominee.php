@@ -24,6 +24,7 @@ class Nominee extends Model
         'proof_file',
         'is_active',
         'is_approved',
+        'is_votable',
     ];
 
     protected function casts(): array
@@ -31,6 +32,7 @@ class Nominee extends Model
         return [
             'is_active' => 'boolean',
             'is_approved' => 'boolean',
+            'is_votable' => 'boolean',
         ];
     }
 
@@ -65,7 +67,7 @@ class Nominee extends Model
      */
     public function scopeVotable(Builder $query, Category $category): Builder
     {
-        $query->where('is_active', true)->where('is_approved', true);
+        $query->where('is_active', true)->where('is_approved', true)->where('is_votable', true);
 
         if (! $category->requires_proof) {
             return $query;

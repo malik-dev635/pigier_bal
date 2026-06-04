@@ -3,10 +3,60 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Nominee;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminController extends Controller
 {
+    /**
+     * Page « Programme » : liste imprimable des nominés pour le maître de cérémonie.
+     */
+    public function programme(): View
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        $categories = Category::query()
+            ->with(['nominees' => fn ($q) => $q->orderByDesc('is_votable')->orderBy('last_name')->orderBy('first_name')])
+            ->orderBy('voter_type')
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.programme', [
+            'categories' => $categories,
+            'categoriesForSelect' => Category::orderBy('name')->get(),
+        ]);
+    }
+
+    /**
+     * Ajoute un nominé au programme (par défaut « hors vote »).
+     */
+    public function programmeStoreNominee(Request $request): RedirectResponse
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+
+        $data = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'class' => 'nullable|string|max:255',
+        ]);
+
+        Nominee::create([
+            'category_id' => $data['category_id'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'class' => $data['class'] ?? null,
+            'is_active' => true,
+            'is_approved' => true,
+            'is_votable' => $request->boolean('is_votable'), // décoché = hors vote
+        ]);
+
+        return redirect()->route('admin.programme')->with('status', 'Nominé ajouté au programme.');
+    }
+
     /**
      * Export CSV de tous les résultats (classement par catégorie).
      */

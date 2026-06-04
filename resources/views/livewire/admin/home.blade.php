@@ -25,8 +25,26 @@
         </div>
     </div>
 
+    {{-- Contrôles globaux du vote --}}
+    <div class="mt-6 card p-4 sm:p-5">
+        <p class="eyebrow mb-3 text-[10px]">Contrôles du vote</p>
+        <div class="flex flex-wrap items-center gap-3">
+            <button wire:click="openAllVotes" wire:confirm="Ouvrir TOUS les votes en même temps ?" class="btn-secondary btn-sm">Ouvrir tous les votes</button>
+            <button wire:click="closeAllVotes" wire:confirm="Fermer TOUS les votes en même temps ?" class="btn-secondary btn-sm">Fermer tous les votes</button>
+            <span class="mx-1 hidden h-5 w-px bg-line sm:block"></span>
+            <button wire:click="toggleHiddenPublic" class="btn-secondary btn-sm">
+                <span class="status {{ $hiddenPublic ? 'status-closed' : 'status-open' }}">
+                    <span class="status-dot"></span>{{ $hiddenPublic ? 'Votes masqués au public' : 'Votes visibles au public' }}
+                </span>
+            </button>
+        </div>
+        @if($hiddenPublic)
+            <p class="field-hint mt-2">Les votants voient un message d'attente — toi (admin) tu gardes l'accès.</p>
+        @endif
+    </div>
+
     {{-- Tuiles --}}
-    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+    <div class="mt-6 grid gap-4 sm:grid-cols-2">
         <a href="{{ route('admin.categories') }}" class="tile">
             <span class="tile-icon">
                 <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
@@ -57,6 +75,14 @@
             </span>
             <h2 class="text-lg text-white">Participants</h2>
             <p class="mt-1 text-sm text-muted">Créer et gérer les comptes des participants.</p>
+        </a>
+
+        <a href="{{ route('admin.programme') }}" class="tile">
+            <span class="tile-icon">
+                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+            </span>
+            <h2 class="text-lg text-white">Programme</h2>
+            <p class="mt-1 text-sm text-muted">Liste des nominés à imprimer ou exporter en PDF pour le maître de cérémonie.</p>
         </a>
     </div>
 </div>

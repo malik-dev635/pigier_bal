@@ -29,6 +29,7 @@ class NomineeManager extends Component
     public ?string $description = null;
     public ?string $proof_url = null;
     public bool $is_active = true;
+    public bool $is_votable = true;
 
     /** Uploads temporaires. */
     public $photo = null;
@@ -105,6 +106,7 @@ class NomineeManager extends Component
         $this->description = $nominee->description;
         $this->proof_url = $nominee->proof_url;
         $this->is_active = $nominee->is_active;
+        $this->is_votable = $nominee->is_votable;
         $this->existingPhoto = $nominee->photo;
         $this->existingProofFile = $nominee->proof_file;
         $this->photo = null;
@@ -124,6 +126,7 @@ class NomineeManager extends Component
             'description' => $this->description,
             'proof_url' => $this->proof_url,
             'is_active' => $this->is_active,
+            'is_votable' => $this->is_votable,
         ];
 
         if ($this->photo) {
@@ -172,7 +175,7 @@ class NomineeManager extends Component
     {
         $this->reset([
             'editingId', 'first_name', 'last_name', 'class', 'description',
-            'proof_url', 'is_active', 'photo', 'proofFile',
+            'proof_url', 'is_active', 'is_votable', 'photo', 'proofFile',
             'existingPhoto', 'existingProofFile',
         ]);
         $this->resetValidation();

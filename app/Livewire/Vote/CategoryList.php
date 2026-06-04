@@ -3,6 +3,7 @@
 namespace App\Livewire\Vote;
 
 use App\Models\Category;
+use App\Support\Settings;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -15,6 +16,17 @@ class CategoryList extends Component
     public function render(): View
     {
         $user = auth()->user();
+
+        // Votes masqués au public : seul l'admin garde l'accès.
+        if (Settings::votesHiddenPublic() && ! $user->isAdmin()) {
+            return view('livewire.vote.category-list', [
+                'hidden' => true,
+                'categories' => collect(),
+                'votedCategoryIds' => [],
+                'votedCount' => 0,
+                'totalCount' => 0,
+            ]);
+        }
 
         $categories = Category::query()
             ->forVoterTypes($user->votableCategoryTypes())
@@ -33,6 +45,7 @@ class CategoryList extends Component
             ->values();
 
         return view('livewire.vote.category-list', [
+            'hidden' => false,
             'categories' => $categories,
             'votedCategoryIds' => $votedCategoryIds,
             'votedCount' => count(array_intersect($votedCategoryIds, $categories->pluck('id')->all())),

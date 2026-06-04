@@ -1,4 +1,11 @@
 <div>
+    @if($hidden)
+        <div class="card p-10 text-center sm:p-16">
+            <p class="eyebrow">Pigier's Élites Awards 2026</p>
+            <h1 class="mt-3 text-2xl sm:text-3xl">Les votes ne sont pas encore ouverts</h1>
+            <p class="mt-3 text-sm text-muted">Revenez bientôt — les votes seront accessibles ici le moment venu. Merci de votre patience&nbsp;!</p>
+        </div>
+    @else
     <div class="mb-8">
         <p class="eyebrow">Pigier's Élites Awards 2026</p>
         <h1 class="mt-2 text-3xl sm:text-4xl">Votez pour vos favoris</h1>
@@ -71,5 +78,6 @@
                 </a>
             @endforeach
         </div>
+    @endif
     @endif
 </div>
