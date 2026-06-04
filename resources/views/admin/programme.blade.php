@@ -59,10 +59,17 @@
         section.award { margin-bottom: 26px; break-inside: avoid; page-break-inside: avoid; }
         section.award h2 { font-size: 19px; margin: 0 0 2px; }
         section.award .meta { margin: 0 0 10px; font-family: Inter, Arial, sans-serif; font-size: 12px; color: #777; text-transform: uppercase; letter-spacing: .08em; }
-        section.award ol { margin: 0; padding-left: 22px; }
-        section.award li { margin: 3px 0; font-size: 16px; }
-        section.award li .cls { color: #777; font-size: 14px; }
-        section.award li .tag { color: #b08400; font-family: Inter, Arial, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+        section.award .rows { margin: 0; }
+        section.award .row { display: flex; align-items: baseline; gap: 10px; padding: 4px 0; font-size: 16px; border-bottom: 1px solid #eee; }
+        section.award .row .rank { width: 20px; color: #999; font-size: 13px; font-family: Inter, Arial, sans-serif; }
+        section.award .row .nm { flex: 1; }
+        section.award .row .cls { color: #777; font-size: 14px; }
+        section.award .row .score { font-family: Inter, Arial, sans-serif; font-size: 14px; color: #555; white-space: nowrap; }
+        section.award .row .tag { color: #b08400; font-family: Inter, Arial, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+        section.award .row.winner { background: #e6f4ea; border-bottom-color: #bfe3cd; padding-left: 8px; padding-right: 8px; margin: 0 -8px; }
+        section.award .row.winner .nm { font-weight: 700; color: #145c2c; }
+        section.award .row.winner .score { color: #1a7a3a; font-weight: 700; }
+        section.award .winner-tag { font-family: Inter, Arial, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #fff; background: #1a7a3a; padding: 2px 7px; white-space: nowrap; }
         section.award .empty { color: #999; font-style: italic; font-family: Inter, Arial, sans-serif; font-size: 14px; }
 
         @media print {
@@ -125,21 +132,31 @@
         </div>
 
         @foreach($categories as $category)
+            @php $total = $category->votes_count; @endphp
             <section class="award">
                 <h2>{{ $category->name }}</h2>
-                <p class="meta">{{ $category->voterTypeLabel() }}</p>
+                <p class="meta">{{ $category->voterTypeLabel() }} · {{ $total }} vote{{ $total > 1 ? 's' : '' }}</p>
                 @if($category->nominees->isEmpty())
                     <p class="empty">Aucun nominé.</p>
                 @else
-                    <ol>
-                        @foreach($category->nominees as $nominee)
-                            <li>
-                                {{ $nominee->full_name }}
-                                @if($nominee->class)<span class="cls"> — {{ $nominee->class }}</span>@endif
-                                @unless($nominee->is_votable)<span class="tag"> · hors vote</span>@endunless
-                            </li>
+                    <div class="rows">
+                        @foreach($category->nominees as $i => $nominee)
+                            @php
+                                $pct = $total ? round($nominee->votes_count / $total * 100) : 0;
+                                $isWinner = $loop->first && $nominee->is_votable && $nominee->votes_count > 0;
+                            @endphp
+                            <div class="row {{ $isWinner ? 'winner' : '' }}">
+                                <span class="rank">{{ $nominee->is_votable ? ($loop->iteration).'.' : '' }}</span>
+                                <span class="nm">{{ $nominee->full_name }}@if($nominee->class)<span class="cls"> — {{ $nominee->class }}</span>@endif</span>
+                                @if($nominee->is_votable)
+                                    <span class="score">{{ $nominee->votes_count }} voix · {{ $pct }}%</span>
+                                @else
+                                    <span class="tag">hors vote</span>
+                                @endif
+                                @if($isWinner)<span class="winner-tag">Gagnant</span>@endif
+                            </div>
                         @endforeach
-                    </ol>
+                    </div>
                 @endif
             </section>
         @endforeach

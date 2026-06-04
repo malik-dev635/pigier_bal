@@ -19,7 +19,11 @@ class AdminController extends Controller
         abort_unless(auth()->user()->isAdmin(), 403);
 
         $categories = Category::query()
-            ->with(['nominees' => fn ($q) => $q->orderByDesc('is_votable')->orderBy('last_name')->orderBy('first_name')])
+            ->with(['nominees' => fn ($q) => $q->withCount('votes')
+                ->orderByDesc('votes_count')
+                ->orderBy('last_name')
+                ->orderBy('first_name')])
+            ->withCount('votes')
             ->orderBy('voter_type')
             ->orderBy('name')
             ->get();

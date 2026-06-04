@@ -74,7 +74,7 @@ class CategoryManager extends Component
         $this->name = $category->name;
         $this->description = $category->description;
         $this->voter_type = $category->voter_type;
-        $this->nominee_type = $category->nominee_type;
+        $this->nominee_type = $category->nominee_type ?? 'person';
         $this->max_nominees = $category->max_nominees;
         $this->is_active = $category->is_active;
         $this->requires_proof = $category->requires_proof;
