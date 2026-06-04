@@ -30,12 +30,15 @@ class CandidacyTest extends TestCase
 
     public function test_candidature_creee_en_attente_puis_visible_apres_approbation(): void
     {
+        \Illuminate\Support\Facades\Storage::fake('public');
         $cat = Category::create(['name' => 'Cat Cand', 'voter_type' => 'eleve', 'is_active' => true, 'candidacy_open' => true]);
 
         Livewire::test(CandidacyForm::class, ['token' => $cat->candidacy_token])
             ->set('first_name', 'Awa')
             ->set('last_name', 'Koné')
+            ->set('photo', \Illuminate\Http\UploadedFile::fake()->image('moi.jpg'))
             ->call('submit')
+            ->assertHasNoErrors()
             ->assertSet('submitted', true);
 
         $nominee = Nominee::where('first_name', 'Awa')->first();
@@ -52,6 +55,34 @@ class CandidacyTest extends TestCase
 
         $this->assertTrue($nominee->fresh()->is_approved);
         $this->assertTrue($cat->votableNominees()->whereKey($nominee->id)->exists());
+    }
+
+    public function test_photo_lien_et_fichier_enregistres(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('public');
+
+        $cat = Category::create([
+            'name' => 'Cat Preuve', 'voter_type' => 'eleve', 'is_active' => true,
+            'candidacy_open' => true, 'requires_proof' => true, 'proof_type' => 'both',
+        ]);
+
+        Livewire::test(CandidacyForm::class, ['token' => $cat->candidacy_token])
+            ->set('first_name', 'Sara')
+            ->set('last_name', 'Diallo')
+            ->set('proof_url', 'https://youtube.com/watch?v=abc')
+            ->set('photo', \Illuminate\Http\UploadedFile::fake()->image('p.jpg'))
+            ->set('proofFile', \Illuminate\Http\UploadedFile::fake()->create('preuve.pdf', 100))
+            ->call('submit')
+            ->assertHasNoErrors()
+            ->assertSet('submitted', true);
+
+        $n = Nominee::where('first_name', 'Sara')->first();
+        $this->assertNotNull($n);
+        $this->assertEquals('https://youtube.com/watch?v=abc', $n->proof_url, 'Le lien doit être enregistré.');
+        $this->assertNotNull($n->photo, 'La photo doit être enregistrée.');
+        $this->assertNotNull($n->proof_file, 'Le fichier de preuve doit être enregistré.');
+        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($n->photo);
+        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($n->proof_file);
     }
 
     public function test_soumission_bloquee_si_candidatures_fermees(): void

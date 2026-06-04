@@ -57,8 +57,9 @@
                 </div>
 
                 <div>
-                    <label class="field-label">Photo <span class="font-normal text-muted">(facultatif)</span></label>
+                    <label class="field-label">Votre photo <span class="font-normal text-muted">(portrait)</span></label>
                     <input type="file" wire:model="photo" accept="image/*" class="input py-2">
+                    <p class="field-hint">Une photo <strong>de vous</strong> — elle apparaîtra sur le bulletin de vote. Obligatoire.</p>
                     <div wire:loading wire:target="photo" class="field-hint">Chargement…</div>
                     @error('photo') <p class="field-error">{{ $message }}</p> @enderror
                     @if($photo)
@@ -66,17 +67,33 @@
                     @endif
                 </div>
 
+                @if($category->requires_proof)
+                    <div class="border-t border-line pt-4">
+                        <p class="text-sm font-medium text-offwhite">Preuve de votre travail</p>
+                        <p class="field-hint">
+                            @if($category->proof_type === 'both')
+                                Montrez votre travail : ajoutez un <strong>lien</strong> <em>ou</em> un <strong>fichier</strong> (au moins l'un des deux).
+                            @elseif($category->proof_type === 'url')
+                                Ajoutez le <strong>lien</strong> vers votre travail.
+                            @else
+                                Joignez le <strong>fichier</strong> de votre travail.
+                            @endif
+                            Ce n'est pas votre photo.
+                        </p>
+                    </div>
+                @endif
+
                 @if($category->needsUrl())
                     <div>
-                        <label class="field-label">Lien de preuve {{ $category->proof_type === 'both' ? '(lien ou fichier)' : '' }}</label>
-                        <input type="url" wire:model="proof_url" class="input" placeholder="https://… (YouTube, Drive, portfolio…)">
+                        <label class="field-label">Lien (vidéo, portfolio, Drive…)</label>
+                        <input type="url" wire:model="proof_url" class="input" placeholder="https://…">
                         @error('proof_url') <p class="field-error">{{ $message }}</p> @enderror
                     </div>
                 @endif
 
                 @if($category->needsFile())
                     <div>
-                        <label class="field-label">Fichier de preuve <span class="font-normal text-muted">(PDF, image, ZIP…)</span></label>
+                        <label class="field-label">Fichier <span class="font-normal text-muted">(PDF, image, ZIP…)</span></label>
                         <input type="file" wire:model="proofFile" class="input py-2">
                         <div wire:loading wire:target="proofFile" class="field-hint">Chargement…</div>
                         @error('proofFile') <p class="field-error">{{ $message }}</p> @enderror

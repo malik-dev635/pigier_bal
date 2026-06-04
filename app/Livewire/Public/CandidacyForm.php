@@ -40,7 +40,7 @@ class CandidacyForm extends Component
             'last_name' => 'required|string|max:255',
             'class' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:2000',
-            'photo' => 'nullable|image|max:4096',
+            'photo' => 'required|image|max:4096',
             'proof_url' => 'nullable|url|max:1000',
             'proofFile' => 'nullable|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx',
         ];
@@ -57,6 +57,16 @@ class CandidacyForm extends Component
         }
 
         return $rules;
+    }
+
+    protected function messages(): array
+    {
+        return [
+            'photo.required' => 'Veuillez ajouter votre photo (portrait).',
+            'photo.image' => 'Le fichier doit être une image (JPG, PNG…).',
+            'proof_url.required' => 'Veuillez fournir le lien de votre preuve.',
+            'proofFile.required' => 'Veuillez joindre le fichier de votre preuve.',
+        ];
     }
 
     public function submit(): void
