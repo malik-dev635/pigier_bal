@@ -132,7 +132,11 @@
         </div>
 
         @foreach($categories as $category)
-            @php $total = $category->votes_count; @endphp
+            @php
+                $total = $category->votes_count;
+                $maxVotes = $category->nominees->where('is_votable', true)->max('votes_count') ?? 0;
+                $winnerCount = $maxVotes > 0 ? $category->nominees->where('is_votable', true)->where('votes_count', $maxVotes)->count() : 0;
+            @endphp
             <section class="award">
                 <h2>{{ $category->name }}</h2>
                 <p class="meta">{{ $category->voterTypeLabel() }} · {{ $total }} vote{{ $total > 1 ? 's' : '' }}</p>
@@ -140,10 +144,10 @@
                     <p class="empty">Aucun nominé.</p>
                 @else
                     <div class="rows">
-                        @foreach($category->nominees as $i => $nominee)
+                        @foreach($category->nominees as $nominee)
                             @php
                                 $pct = $total ? round($nominee->votes_count / $total * 100) : 0;
-                                $isWinner = $loop->first && $nominee->is_votable && $nominee->votes_count > 0;
+                                $isWinner = $nominee->is_votable && $nominee->votes_count > 0 && $nominee->votes_count == $maxVotes;
                             @endphp
                             <div class="row {{ $isWinner ? 'winner' : '' }}">
                                 <span class="rank">{{ $nominee->is_votable ? ($loop->iteration).'.' : '' }}</span>
@@ -153,7 +157,7 @@
                                 @else
                                     <span class="tag">hors vote</span>
                                 @endif
-                                @if($isWinner)<span class="winner-tag">Gagnant</span>@endif
+                                @if($isWinner)<span class="winner-tag">{{ $winnerCount > 1 ? 'Gagnant ex æquo' : 'Gagnant' }}</span>@endif
                             </div>
                         @endforeach
                     </div>
