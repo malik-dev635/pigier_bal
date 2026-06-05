@@ -35,5 +35,8 @@ class AppServiceProvider extends ServiceProvider
         if ($base = request()->getBaseUrl()) {
             config(['livewire.asset_url' => $base.'/livewire/livewire.js']);
         }
+
+        // Autorise les uploads jusqu'à 20 Mo (Livewire bloque à 12 Mo par défaut).
+        config(['livewire.temporary_file_upload.rules' => ['required', 'file', 'max:20480']]);
     }
 }
