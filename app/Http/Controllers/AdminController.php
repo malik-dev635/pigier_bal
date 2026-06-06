@@ -42,15 +42,33 @@ class AdminController extends Controller
         abort_unless(auth()->user()->isAdmin(), 403);
 
         $data = $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
+            'new_category' => 'nullable|string|max:255',
             'first_name' => 'nullable|string|max:255', // vide pour une association/entité
             'last_name' => 'required|string|max:255',
             'class' => 'nullable|string|max:255',
         ]);
 
+        // Récompense : existante (choisie) ou nouvelle (saisie).
+        if (filled($data['new_category'] ?? null)) {
+            $category = Category::create([
+                'name' => $data['new_category'],
+                'voter_type' => 'eleve',
+                'nominee_type' => 'person',
+                'is_active' => false, // récompense de programme, non ouverte au vote
+            ]);
+            $categoryId = $category->id;
+        } elseif (! empty($data['category_id'])) {
+            $categoryId = (int) $data['category_id'];
+        } else {
+            return back()
+                ->withErrors(['category_id' => 'Choisissez une récompense existante ou saisissez-en une nouvelle.'])
+                ->withInput();
+        }
+
         Nominee::create([
-            'category_id' => $data['category_id'],
-            'first_name' => $data['first_name'],
+            'category_id' => $categoryId,
+            'first_name' => $data['first_name'] ?? null,
             'last_name' => $data['last_name'],
             'class' => $data['class'] ?? null,
             'is_active' => true,

@@ -97,25 +97,30 @@
             <summary>+ Ajouter un nominé au programme (hors vote par défaut)</summary>
             <form method="POST" action="{{ route('admin.programme.nominee') }}" class="addform">
                 @csrf
-                <div class="full">
-                    <label>Récompense</label>
-                    <select name="category_id" required>
+                <div>
+                    <label>Récompense existante</label>
+                    <select name="category_id">
+                        <option value="">— Choisir —</option>
                         @foreach($categoriesForSelect as $c)
-                            <option value="{{ $c->id }}">{{ $c->name }}</option>
+                            <option value="{{ $c->id }}" @selected(old('category_id') == $c->id)>{{ $c->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div>
+                    <label>… ou nouvelle récompense</label>
+                    <input type="text" name="new_category" value="{{ old('new_category') }}" placeholder="Ex : Prix spécial du jury">
+                </div>
+                <div>
                     <label>Prénom <span style="color:#777">(vide si association)</span></label>
-                    <input type="text" name="first_name">
+                    <input type="text" name="first_name" value="{{ old('first_name') }}">
                 </div>
                 <div>
                     <label>Nom (ou nom de l'association)</label>
-                    <input type="text" name="last_name" required>
+                    <input type="text" name="last_name" value="{{ old('last_name') }}" required>
                 </div>
                 <div>
                     <label>Classe (facultatif)</label>
-                    <input type="text" name="class" placeholder="Ex : RGL3A">
+                    <input type="text" name="class" value="{{ old('class') }}" placeholder="Ex : RGL3A">
                 </div>
                 <div class="full">
                     <label class="check"><input type="checkbox" name="is_votable" value="1"> Présenter aussi au vote (sinon : seulement dans le programme)</label>
