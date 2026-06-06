@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\Vote\CategoryList;
 use App\Livewire\Vote\CategoryVote;
 use App\Models\Category;
 use App\Models\Nominee;
@@ -40,6 +41,7 @@ class VotingTest extends TestCase
         $eleve = $this->eleve();
         $cat = Category::create(['name' => 'Cat A', 'voter_type' => 'eleve', 'is_active' => true]);
         $nominee = Nominee::create(['category_id' => $cat->id, 'first_name' => 'Jean', 'last_name' => 'Test', 'is_active' => true]);
+        Nominee::create(['category_id' => $cat->id, 'first_name' => 'Autre', 'last_name' => 'Candidat', 'is_active' => true]);
 
         Livewire::actingAs($eleve)
             ->test(CategoryVote::class, ['category' => $cat])
@@ -49,6 +51,23 @@ class VotingTest extends TestCase
         $this->assertDatabaseHas('votes', [
             'user_id' => $eleve->id, 'category_id' => $cat->id, 'nominee_id' => $nominee->id,
         ]);
+    }
+
+    public function test_recompense_visible_seulement_avec_2_candidats(): void
+    {
+        $eleve = $this->eleve();
+
+        $avecDeux = Category::create(['name' => 'Avec deux candidats', 'voter_type' => 'eleve', 'is_active' => true]);
+        Nominee::create(['category_id' => $avecDeux->id, 'first_name' => 'A', 'last_name' => 'A', 'is_active' => true]);
+        Nominee::create(['category_id' => $avecDeux->id, 'first_name' => 'B', 'last_name' => 'B', 'is_active' => true]);
+
+        $avecUn = Category::create(['name' => 'Avec un candidat', 'voter_type' => 'eleve', 'is_active' => true]);
+        Nominee::create(['category_id' => $avecUn->id, 'first_name' => 'C', 'last_name' => 'C', 'is_active' => true]);
+
+        Livewire::actingAs($eleve)
+            ->test(CategoryList::class)
+            ->assertSee('Avec deux candidats')
+            ->assertDontSee('Avec un candidat');
     }
 
     public function test_un_seul_vote_par_categorie(): void
@@ -81,6 +100,7 @@ class VotingTest extends TestCase
         $eleve = $this->eleve();
         $cat = Category::create(['name' => 'Cat D', 'voter_type' => 'eleve', 'is_active' => false]);
         $n = Nominee::create(['category_id' => $cat->id, 'first_name' => 'X', 'last_name' => 'Y', 'is_active' => true]);
+        Nominee::create(['category_id' => $cat->id, 'first_name' => 'Z', 'last_name' => 'W', 'is_active' => true]);
 
         Livewire::actingAs($eleve)
             ->test(CategoryVote::class, ['category' => $cat])

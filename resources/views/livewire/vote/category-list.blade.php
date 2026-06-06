@@ -61,7 +61,7 @@
                         @endif
 
                         <div class="mt-4 flex flex-wrap items-center gap-2">
-                            <span class="badge-muted">{{ $category->nominees_count }} nominé{{ $category->nominees_count > 1 ? 's' : '' }}</span>
+                            <span class="badge-muted">{{ $category->votable_count }} nominé{{ $category->votable_count > 1 ? 's' : '' }}</span>
                             @if($hasVoted)
                                 <span class="badge-gold">
                                     <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>

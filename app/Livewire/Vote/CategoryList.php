@@ -30,10 +30,19 @@ class CategoryList extends Component
 
         $categories = Category::query()
             ->forVoterTypes($user->votableCategoryTypes())
-            ->withCount(['votes', 'nominees'])
+            ->withCount('votes')
+            ->with('nominees')
             ->orderByDesc('is_active')
             ->orderBy('name')
             ->get();
+
+        // Une récompense n'est visible qu'avec au moins 2 nominés votables.
+        $categories->each(function (Category $cat) {
+            $cat->votable_count = $cat->nominees->filter(fn ($n) =>
+                $n->is_active && $n->is_approved && $n->is_votable && $n->hasRequiredProof($cat)
+            )->count();
+        });
+        $categories = $categories->filter(fn (Category $c) => $c->votable_count >= 2)->values();
 
         $votedCategoryIds = $user->votes()->pluck('category_id')->all();
 

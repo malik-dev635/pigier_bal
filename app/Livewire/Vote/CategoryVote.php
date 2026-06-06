@@ -31,6 +31,11 @@ class CategoryVote extends Component
         // Vérification serveur du type de votant.
         abort_unless($user->can('participate', $category), 403);
 
+        // Une récompense n'est votable qu'avec au moins 2 candidats (sauf aperçu admin).
+        if (! $user->isAdmin() && $category->votableNominees()->count() < 2) {
+            return $this->redirect(route('vote.index'), navigate: true);
+        }
+
         $this->category = $category;
         $this->votedNomineeId = $user->votes()
             ->where('category_id', $category->id)
