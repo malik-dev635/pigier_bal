@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Livewire\Admin\CategoryManager;
 use App\Livewire\Admin\Home as AdminHome;
 use App\Livewire\Admin\NomineeManager;
+use App\Livewire\Admin\QrCodes;
 use App\Livewire\Admin\Results;
 use App\Livewire\Admin\UserManager;
 use App\Livewire\Public\CandidacyForm;
@@ -76,6 +77,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/resultats', Results::class)->name('results');
     Route::get('/comptes', UserManager::class)->name('users');
     Route::get('/resultats/export', [AdminController::class, 'exportResults'])->name('results.export');
+    Route::get('/qr', QrCodes::class)->name('qr');
     Route::get('/programme', [AdminController::class, 'programme'])->name('programme');
     Route::post('/programme/nomine', [AdminController::class, 'programmeStoreNominee'])->name('programme.nominee');
 });

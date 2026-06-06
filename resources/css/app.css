@@ -34,6 +34,9 @@
 
     [x-cloak] { display: none !important; }
 
+    /* QR codes (générés en SVG côté JS) */
+    .qr-box svg { width: 100%; height: 100%; display: block; }
+
     * {
         scrollbar-width: thin;
         scrollbar-color: #2c2c33 transparent;
