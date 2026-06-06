@@ -30,10 +30,11 @@
                 <div class="qr-box aspect-square w-40 bg-white p-2.5">
                     <div data-qr="{{ route('vote.category', $category->slug) }}" class="h-full w-full"></div>
                 </div>
-                <p class="mt-3 font-medium text-white">{{ $category->name }}</p>
+                <p class="eyebrow mt-3 text-[10px]">Vote</p>
+                <p class="mt-1 font-medium text-white">{{ $category->name }}</p>
                 <p class="mt-0.5 text-xs text-muted">{{ $category->voterTypeLabel() }}</p>
                 <button class="btn-secondary btn-sm mt-3"
-                        @click="$dispatch('qr-open', { name: {{ \Illuminate\Support\Js::from($category->name) }}, url: {{ \Illuminate\Support\Js::from(route('vote.category', $category->slug)) }} })">
+                        @click="$dispatch('qr-open', { name: {{ \Illuminate\Support\Js::from('Vote : '.$category->name) }}, url: {{ \Illuminate\Support\Js::from(route('vote.category', $category->slug)) }} })">
                     Projeter
                 </button>
             </div>
@@ -46,7 +47,8 @@
          @keydown.escape.window="open = false">
         <div x-show="open" x-cloak @click="open = false"
              class="fixed inset-0 z-[100] flex cursor-pointer flex-col items-center justify-center bg-white p-6">
-            <h2 class="mb-5 text-center text-2xl font-semibold text-black sm:text-4xl" x-text="name"></h2>
+            <h2 class="text-center text-2xl font-semibold text-black sm:text-4xl" x-text="name"></h2>
+            <p class="mb-5 mt-1 text-center text-base text-gray-500 sm:text-lg">Scannez pour voter</p>
             <div x-ref="big" class="qr-box aspect-square w-[78vmin] max-w-[620px] bg-white"></div>
             <p class="mt-5 break-all text-center text-sm text-gray-500" x-text="url"></p>
             <p class="mt-2 text-xs text-gray-400">Touchez l'écran (ou Échap) pour fermer</p>
