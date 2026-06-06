@@ -40,13 +40,22 @@
                                 $isLeader = $loop->first && $nominee->votes_count > 0;
                             @endphp
                             <div>
-                                <div class="mb-2 flex items-baseline justify-between gap-4">
-                                    <span class="flex items-center gap-2 text-2xl font-semibold sm:text-3xl {{ $isLeader ? 'text-gold-light' : 'text-white' }}">
-                                        {{ $nominee->full_name }}
-                                        @if($isLeader)
-                                            <svg class="h-6 w-6 text-gold-main sm:h-7 sm:w-7" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 2h14v2H5v-2z"/></svg>
-                                        @endif
-                                    </span>
+                                <div class="mb-2 flex items-center justify-between gap-4">
+                                    <div class="flex min-w-0 items-center gap-3 sm:gap-4">
+                                        <div class="h-14 w-14 shrink-0 overflow-hidden border bg-bg-surface sm:h-[72px] sm:w-[72px] {{ $isLeader ? 'border-gold-main' : 'border-line' }}">
+                                            @if($nominee->photo_url)
+                                                <img src="{{ $nominee->photo_url }}" alt="" class="h-full w-full object-cover">
+                                            @else
+                                                <div class="flex h-full w-full items-center justify-center font-semibold text-muted">{{ $nominee->initials }}</div>
+                                            @endif
+                                        </div>
+                                        <span class="flex items-center gap-2 text-2xl font-semibold sm:text-3xl {{ $isLeader ? 'text-gold-light' : 'text-white' }}">
+                                            {{ $nominee->full_name }}
+                                            @if($isLeader)
+                                                <svg class="h-6 w-6 shrink-0 text-gold-main sm:h-7 sm:w-7" fill="currentColor" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm0 2h14v2H5v-2z"/></svg>
+                                            @endif
+                                        </span>
+                                    </div>
                                     <span class="shrink-0 text-2xl font-bold sm:text-4xl {{ $isLeader ? 'text-gold-light' : 'text-muted' }}">{{ $pct }}%</span>
                                 </div>
                                 <div class="h-6 w-full overflow-hidden bg-bg-surface sm:h-8">
