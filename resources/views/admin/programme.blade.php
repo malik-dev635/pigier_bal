@@ -60,17 +60,23 @@
         section.award h2 { font-size: 19px; margin: 0 0 2px; }
         section.award .meta { margin: 0 0 10px; font-family: Inter, Arial, sans-serif; font-size: 12px; color: #777; text-transform: uppercase; letter-spacing: .08em; }
         section.award .rows { margin: 0; }
-        section.award .row { display: flex; align-items: baseline; gap: 10px; padding: 4px 0; font-size: 16px; border-bottom: 1px solid #eee; }
-        section.award .row .rank { width: 20px; color: #999; font-size: 13px; font-family: Inter, Arial, sans-serif; }
-        section.award .row .nm { flex: 1; }
-        section.award .row .cls { color: #777; font-size: 14px; }
-        section.award .row .score { font-family: Inter, Arial, sans-serif; font-size: 14px; color: #555; white-space: nowrap; }
-        section.award .row .tag { color: #b08400; font-family: Inter, Arial, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+        section.award .row { padding: 6px 0; border-bottom: 1px solid #eee; }
+        section.award .row-main { display: flex; align-items: baseline; gap: 10px; font-size: 16px; }
+        section.award .rank { width: 20px; color: #999; font-size: 13px; font-family: Inter, Arial, sans-serif; }
+        section.award .nm { flex: 1; }
+        section.award .cls { color: #777; font-size: 14px; }
+        section.award .score { font-family: Inter, Arial, sans-serif; font-size: 14px; color: #555; white-space: nowrap; }
+        section.award .tag { color: #b08400; font-family: Inter, Arial, sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
         section.award .row.winner { background: #e6f4ea; border-bottom-color: #bfe3cd; padding-left: 8px; padding-right: 8px; margin: 0 -8px; }
         section.award .row.winner .nm { font-weight: 700; color: #145c2c; }
         section.award .row.winner .score { color: #1a7a3a; font-weight: 700; }
         section.award .winner-tag { font-family: Inter, Arial, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #fff; background: #1a7a3a; padding: 2px 7px; white-space: nowrap; }
+        section.award .row-sub { margin: 3px 0 0 30px; }
+        section.award .desc { margin: 2px 0; font-size: 14px; color: #444; font-style: italic; }
+        section.award .proof { margin: 2px 0; font-family: Inter, Arial, sans-serif; font-size: 12px; color: #555; }
+        section.award .proof a { color: #1a5fb4; word-break: break-all; }
         section.award .empty { color: #999; font-style: italic; font-family: Inter, Arial, sans-serif; font-size: 14px; }
+        .group-title { font-size: 14px; font-family: Inter, Arial, sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #b08400; border-bottom: 2px solid #C9A24B; padding-bottom: 6px; margin: 34px 0 18px; }
 
         @media print {
             body { background: #fff; }
@@ -131,38 +137,64 @@
             <p>Bal de fin d'année 2026 · Programme des nominés</p>
         </div>
 
-        @foreach($categories as $category)
-            @php
-                $total = $category->votes_count;
-                $maxVotes = $category->nominees->where('is_votable', true)->max('votes_count') ?? 0;
-                $winnerCount = $maxVotes > 0 ? $category->nominees->where('is_votable', true)->where('votes_count', $maxVotes)->count() : 0;
-            @endphp
-            <section class="award">
-                <h2>{{ $category->name }}</h2>
-                <p class="meta">{{ $category->voterTypeLabel() }} · {{ $total }} vote{{ $total > 1 ? 's' : '' }}</p>
-                @if($category->nominees->isEmpty())
-                    <p class="empty">Aucun nominé.</p>
-                @else
-                    <div class="rows">
-                        @foreach($category->nominees as $nominee)
-                            @php
-                                $pct = $total ? round($nominee->votes_count / $total * 100) : 0;
-                                $isWinner = $nominee->is_votable && $nominee->votes_count > 0 && $nominee->votes_count == $maxVotes;
-                            @endphp
-                            <div class="row {{ $isWinner ? 'winner' : '' }}">
-                                <span class="rank">{{ $nominee->is_votable ? ($loop->iteration).'.' : '' }}</span>
-                                <span class="nm">{{ $nominee->full_name }}@if($nominee->class)<span class="cls"> — {{ $nominee->class }}</span>@endif</span>
-                                @if($nominee->is_votable)
-                                    <span class="score">{{ $nominee->votes_count }} voix · {{ $pct }}%</span>
-                                @else
-                                    <span class="tag">hors vote</span>
-                                @endif
-                                @if($isWinner)<span class="winner-tag">{{ $winnerCount > 1 ? 'Gagnant ex æquo' : 'Gagnant' }}</span>@endif
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-            </section>
+        @php
+            $groups = [
+                'Prix individuels' => $categories->filter(fn ($c) => $c->nominee_type !== 'entity'),
+                'Prix collectifs (clubs, associations, événements…)' => $categories->filter(fn ($c) => $c->nominee_type === 'entity'),
+            ];
+        @endphp
+
+        @foreach($groups as $groupTitle => $groupCats)
+            @continue($groupCats->isEmpty())
+            <h2 class="group-title">{{ $groupTitle }}</h2>
+
+            @foreach($groupCats as $category)
+                @php
+                    $total = $category->votes_count;
+                    $maxVotes = $category->nominees->where('is_votable', true)->max('votes_count') ?? 0;
+                    $winnerCount = $maxVotes > 0 ? $category->nominees->where('is_votable', true)->where('votes_count', $maxVotes)->count() : 0;
+                @endphp
+                <section class="award">
+                    <h2>{{ $category->name }}</h2>
+                    <p class="meta">{{ $category->voterTypeLabel() }} · {{ $total }} vote{{ $total > 1 ? 's' : '' }}</p>
+                    @if($category->nominees->isEmpty())
+                        <p class="empty">Aucun nominé.</p>
+                    @else
+                        <div class="rows">
+                            @foreach($category->nominees as $nominee)
+                                @php
+                                    $pct = $total ? round($nominee->votes_count / $total * 100) : 0;
+                                    $isWinner = $nominee->is_votable && $nominee->votes_count > 0 && $nominee->votes_count == $maxVotes;
+                                @endphp
+                                <div class="row {{ $isWinner ? 'winner' : '' }}">
+                                    <div class="row-main">
+                                        <span class="rank">{{ $nominee->is_votable ? ($loop->iteration).'.' : '' }}</span>
+                                        <span class="nm">{{ $nominee->full_name }}@if($nominee->class)<span class="cls"> — {{ $nominee->class }}</span>@endif</span>
+                                        @if($nominee->is_votable)
+                                            <span class="score">{{ $nominee->votes_count }} voix · {{ $pct }}%</span>
+                                        @else
+                                            <span class="tag">hors vote</span>
+                                        @endif
+                                        @if($isWinner)<span class="winner-tag">{{ $winnerCount > 1 ? 'Gagnant ex æquo' : 'Gagnant' }}</span>@endif
+                                    </div>
+                                    @if($nominee->description || $nominee->proof_url || $nominee->proof_file)
+                                        <div class="row-sub">
+                                            @if($nominee->description)<p class="desc">{{ $nominee->description }}</p>@endif
+                                            @if($nominee->proof_url || $nominee->proof_file)
+                                                <p class="proof">Preuve :
+                                                    @if($nominee->proof_url)<a href="{{ $nominee->proof_url }}" target="_blank" rel="noopener">{{ $nominee->proof_url }}</a>@endif
+                                                    @if($nominee->proof_url && $nominee->proof_file) &nbsp;·&nbsp; @endif
+                                                    @if($nominee->proof_file)<a href="{{ $nominee->proof_file_url }}" target="_blank" rel="noopener">Télécharger le fichier</a>@endif
+                                                </p>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </section>
+            @endforeach
         @endforeach
     </div>
 </body>
