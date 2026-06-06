@@ -92,13 +92,5 @@
             <h2 class="text-lg text-white">QR codes</h2>
             <p class="mt-1 text-sm text-muted">Afficher / projeter un QR code par récompense pour voter sur place.</p>
         </a>
-
-        <a href="{{ route('admin.live') }}" class="tile">
-            <span class="tile-icon">
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg>
-            </span>
-            <h2 class="text-lg text-white">Affichage en direct</h2>
-            <p class="mt-1 text-sm text-muted">Résultats en temps réel, en grand, à projeter pendant le vote.</p>
-        </a>
     </div>
 </div>

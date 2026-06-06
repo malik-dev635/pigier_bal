@@ -24,9 +24,12 @@
                             {{ $category->is_active ? 'Ouvert' : 'Clôturé' }}
                         </p>
                     </div>
-                    <button wire:click="resetVotes({{ $category->id }})"
-                            wire:confirm="Réinitialiser tous les votes de « {{ $category->name }} » ? Cette action est irréversible."
-                            class="btn-danger btn-sm">Réinitialiser les votes</button>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <a href="{{ route('admin.live', ['category' => $category->id]) }}" target="_blank" class="btn-secondary btn-sm">Afficher en direct</a>
+                        <button wire:click="resetVotes({{ $category->id }})"
+                                wire:confirm="Réinitialiser tous les votes de « {{ $category->name }} » ? Cette action est irréversible."
+                                class="btn-danger btn-sm">Réinitialiser les votes</button>
+                    </div>
                 </div>
 
                 @if($category->nominees->isEmpty() || $category->votes_count === 0)
