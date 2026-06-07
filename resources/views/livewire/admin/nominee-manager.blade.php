@@ -29,7 +29,9 @@
             <div wire:key="nom-{{ $nominee->id }}" class="card flex flex-col p-5 {{ $nominee->is_approved ? '' : 'border-gold-main/60' }}">
                 <div class="mb-4 flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-line bg-bg-surface">
                     @if($nominee->photo_url)
-                        <img src="{{ $nominee->photo_url }}" alt="" class="h-full w-full object-cover">
+                        <a href="{{ $nominee->photo_url }}" target="_blank" rel="noopener" title="Ouvrir la photo en grand" class="block h-full w-full">
+                            <img src="{{ $nominee->photo_url }}" alt="" class="h-full w-full object-cover">
+                        </a>
                     @else
                         <span class="text-2xl font-semibold text-muted">{{ $nominee->initials }}</span>
                     @endif
@@ -46,9 +48,22 @@
                     @unless($nominee->is_approved)<span class="badge-gold">Candidature en attente</span>@endunless
                     @unless($nominee->is_active)<span class="badge-muted">Inactif</span>@endunless
                     @unless($nominee->is_votable)<span class="badge-muted">Hors vote</span>@endunless
-                    @if($nominee->proof_url)<span class="badge-muted">Lien</span>@endif
-                    @if($nominee->proof_file)<span class="badge-muted">Fichier</span>@endif
                 </div>
+
+                {{-- Preuve soumise : à vérifier avant d'approuver --}}
+                @if($nominee->proof_url || $nominee->proof_file)
+                    <div class="mt-3">
+                        <p class="eyebrow mb-1.5 text-[10px]">Preuve soumise</p>
+                        <div class="flex flex-wrap gap-2">
+                            @if($nominee->proof_url)
+                                <a href="{{ $nominee->proof_url }}" target="_blank" rel="noopener" class="btn-secondary btn-sm">Ouvrir le lien</a>
+                            @endif
+                            @if($nominee->proof_file)
+                                <a href="{{ $nominee->proof_file_url }}" target="_blank" rel="noopener" class="btn-secondary btn-sm">Ouvrir le fichier</a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
 
                 <div class="mt-4 flex gap-2 border-t border-line pt-4">
                     @unless($nominee->is_approved)
