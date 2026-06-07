@@ -64,7 +64,7 @@ class NomineeManager extends Component
             'class' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:2000',
             'is_active' => 'boolean',
-            'photo' => 'nullable|image|max:4096',
+            'photo' => 'nullable|image|max:8192',
             'proofFile' => 'nullable|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx',
             'proof_url' => 'nullable|url|max:1000',
         ];

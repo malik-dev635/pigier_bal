@@ -126,6 +126,7 @@
                             <p class="field-hint mb-1">Photo actuelle conservée si aucun nouveau fichier.</p>
                         @endif
                         <input type="file" wire:model="photo" accept="image/*" class="input py-2">
+                        <p class="field-hint">Image (JPG, PNG…) — 8 Mo maximum.</p>
                         <div wire:loading wire:target="photo" class="field-hint">Chargement…</div>
                         @error('photo') <p class="field-error">{{ $message }}</p> @enderror
                         @if($photo && $photo->isPreviewable())
@@ -148,6 +149,7 @@
                                 <p class="field-hint mb-1">Fichier déjà présent — laissez vide pour le conserver.</p>
                             @endif
                             <input type="file" wire:model="proofFile" class="input py-2">
+                            <p class="field-hint">PDF, image, ZIP… — 20 Mo maximum.</p>
                             <div wire:loading wire:target="proofFile" class="field-hint">Chargement…</div>
                             @error('proofFile') <p class="field-error">{{ $message }}</p> @enderror
                         </div>

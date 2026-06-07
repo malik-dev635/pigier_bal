@@ -68,11 +68,11 @@
                     @if($category->isEntity())
                         <label class="field-label">Logo / photo</label>
                         <input type="file" wire:model="photo" accept="image/*" class="input py-2">
-                        <p class="field-hint">Le logo ou une photo représentative — apparaîtra sur le bulletin de vote. Obligatoire.</p>
+                        <p class="field-hint">Le logo ou une photo représentative — apparaîtra sur le bulletin de vote. Obligatoire. Image, 8 Mo max.</p>
                     @else
                         <label class="field-label">Votre photo <span class="font-normal text-muted">(portrait)</span></label>
                         <input type="file" wire:model="photo" accept="image/*" class="input py-2">
-                        <p class="field-hint">Une photo <strong>de vous</strong> — elle apparaîtra sur le bulletin de vote. Obligatoire.</p>
+                        <p class="field-hint">Une photo <strong>de vous</strong> — elle apparaîtra sur le bulletin de vote. Obligatoire. Image, 8 Mo max.</p>
                     @endif
                     <div wire:loading wire:target="photo" class="field-hint">Chargement…</div>
                     @error('photo') <p class="field-error">{{ $message }}</p> @enderror
@@ -109,6 +109,7 @@
                     <div>
                         <label class="field-label">Fichier <span class="font-normal text-muted">(PDF, image, ZIP…)</span></label>
                         <input type="file" wire:model="proofFile" class="input py-2">
+                        <p class="field-hint">20 Mo maximum.</p>
                         <div wire:loading wire:target="proofFile" class="field-hint">Chargement…</div>
                         @error('proofFile') <p class="field-error">{{ $message }}</p> @enderror
                     </div>

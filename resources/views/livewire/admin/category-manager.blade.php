@@ -111,6 +111,7 @@
                     <div>
                         <label class="field-label">Affiche <span class="font-normal text-muted">(facultatif)</span></label>
                         <input type="file" wire:model="image" accept="image/*" class="input py-2">
+                        <p class="field-hint">Image (JPG, PNG…) — 8 Mo maximum.</p>
                         <div wire:loading wire:target="image" class="field-hint">Chargement…</div>
                         @error('image') <p class="field-error">{{ $message }}</p> @enderror
                         <div class="mt-2 flex items-center gap-3">
