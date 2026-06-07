@@ -25,6 +25,7 @@ class CandidacyForm extends Component
     public ?string $proof_url = null;
     public $photo = null;
     public $proofFile = null;
+    public $proofFile2 = null;
 
     public bool $submitted = false;
 
@@ -35,7 +36,9 @@ class CandidacyForm extends Component
 
     protected function rules(): array
     {
-        $rules = [
+        // Validation de format uniquement ; la présence de la preuve est
+        // vérifiée dans submit() (pour gérer 2 fichiers proprement).
+        return [
             'first_name' => ($this->category->isEntity() ? 'nullable' : 'required').'|string|max:255',
             'last_name' => 'required|string|max:255',
             'class' => 'nullable|string|max:255',
@@ -43,20 +46,8 @@ class CandidacyForm extends Component
             'photo' => 'required|image|max:8192',
             'proof_url' => 'nullable|url|max:1000',
             'proofFile' => 'nullable|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx',
+            'proofFile2' => 'nullable|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx',
         ];
-
-        if ($this->category->requires_proof) {
-            if ($this->category->proof_type === 'url') {
-                $rules['proof_url'] = 'required|url|max:1000';
-            } elseif ($this->category->proof_type === 'file') {
-                $rules['proofFile'] = 'required|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx';
-            } else { // both : au moins une preuve
-                $rules['proof_url'] = 'required_without:proofFile|nullable|url|max:1000';
-                $rules['proofFile'] = 'required_without:proof_url|nullable|file|max:20480';
-            }
-        }
-
-        return $rules;
     }
 
     protected function messages(): array
@@ -64,8 +55,6 @@ class CandidacyForm extends Component
         return [
             'photo.required' => 'Veuillez ajouter votre photo (portrait).',
             'photo.image' => 'Le fichier doit être une image (JPG, PNG…).',
-            'proof_url.required' => 'Veuillez fournir le lien de votre preuve.',
-            'proofFile.required' => 'Veuillez joindre le fichier de votre preuve.',
         ];
     }
 
@@ -75,6 +64,28 @@ class CandidacyForm extends Component
         abort_unless($this->category->candidacy_open, 403, 'Les candidatures sont fermées pour cette récompense.');
 
         $this->validate();
+
+        // Vérifie la présence de la preuve requise (lien et/ou fichier(s)).
+        if ($this->category->requires_proof) {
+            $hasUrl = filled($this->proof_url);
+            $hasFile = $this->proofFile || $this->proofFile2;
+
+            $ok = match ($this->category->proof_type) {
+                'url' => $hasUrl,
+                'file' => $hasFile,
+                'both' => $hasUrl || $hasFile,
+                default => true,
+            };
+
+            if (! $ok) {
+                $this->addError('proof', match ($this->category->proof_type) {
+                    'url' => 'Veuillez fournir le lien de votre preuve.',
+                    'file' => 'Veuillez joindre au moins un fichier de preuve.',
+                    default => 'Veuillez fournir votre preuve (un lien et/ou un fichier).',
+                });
+                return;
+            }
+        }
 
         $data = [
             'category_id' => $this->category->id,
@@ -93,10 +104,13 @@ class CandidacyForm extends Component
         if ($this->proofFile) {
             $data['proof_file'] = $this->proofFile->store('nominees/proofs', 'public');
         }
+        if ($this->proofFile2) {
+            $data['proof_file_2'] = $this->proofFile2->store('nominees/proofs', 'public');
+        }
 
         Nominee::create($data);
 
-        $this->reset(['first_name', 'last_name', 'class', 'description', 'proof_url', 'photo', 'proofFile']);
+        $this->reset(['first_name', 'last_name', 'class', 'description', 'proof_url', 'photo', 'proofFile', 'proofFile2']);
         $this->submitted = true;
     }
 

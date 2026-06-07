@@ -51,16 +51,16 @@
                 </div>
 
                 {{-- Preuve soumise : à vérifier avant d'approuver --}}
-                @if($nominee->proof_url || $nominee->proof_file)
+                @if($nominee->proof_url || $nominee->hasProofFile())
                     <div class="mt-3">
                         <p class="eyebrow mb-1.5 text-[10px]">Preuve soumise</p>
                         <div class="flex flex-wrap gap-2">
                             @if($nominee->proof_url)
                                 <a href="{{ $nominee->proof_url }}" target="_blank" rel="noopener" class="btn-secondary btn-sm">Ouvrir le lien</a>
                             @endif
-                            @if($nominee->proof_file)
-                                <a href="{{ $nominee->proof_file_url }}" target="_blank" rel="noopener" class="btn-secondary btn-sm">Ouvrir le fichier</a>
-                            @endif
+                            @foreach($nominee->proof_file_urls as $i => $fileUrl)
+                                <a href="{{ $fileUrl }}" target="_blank" rel="noopener" class="btn-secondary btn-sm">Fichier {{ count($nominee->proof_file_urls) > 1 ? $i + 1 : '' }}</a>
+                            @endforeach
                         </div>
                     </div>
                 @endif
@@ -153,7 +153,19 @@
                             <div wire:loading wire:target="proofFile" class="field-hint">Chargement…</div>
                             @error('proofFile') <p class="field-error">{{ $message }}</p> @enderror
                         </div>
+                        <div>
+                            <label class="field-label">Second fichier <span class="font-normal text-muted">(facultatif)</span></label>
+                            @if($existingProofFile2)
+                                <p class="field-hint mb-1">Fichier déjà présent — laissez vide pour le conserver.</p>
+                            @endif
+                            <input type="file" wire:model="proofFile2" class="input py-2">
+                            <p class="field-hint">PDF, image, ZIP… — 20 Mo maximum.</p>
+                            <div wire:loading wire:target="proofFile2" class="field-hint">Chargement…</div>
+                            @error('proofFile2') <p class="field-error">{{ $message }}</p> @enderror
+                        </div>
                     @endif
+
+                    @error('proof') <p class="field-error">{{ $message }}</p> @enderror
 
                     <label class="flex items-center gap-2.5 text-sm text-offwhite">
                         <input type="checkbox" wire:model="is_active" class="checkbox">
@@ -167,7 +179,7 @@
 
                     <div class="flex justify-end gap-3 pt-2">
                         <button type="button" wire:click="$set('showModal', false)" class="btn-secondary">Annuler</button>
-                        <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="save,photo,proofFile">Enregistrer</button>
+                        <button type="submit" class="btn-primary" wire:loading.attr="disabled" wire:target="save,photo,proofFile,proofFile2">Enregistrer</button>
                     </div>
                 </form>
             </div>

@@ -22,6 +22,7 @@ class Nominee extends Model
         'description',
         'proof_url',
         'proof_file',
+        'proof_file_2',
         'is_active',
         'is_approved',
         'is_votable',
@@ -77,9 +78,9 @@ class Nominee extends Model
             if ($category->proof_type === 'url') {
                 $q->whereNotNull('proof_url');
             } elseif ($category->proof_type === 'file') {
-                $q->whereNotNull('proof_file');
+                $q->whereNotNull('proof_file')->orWhereNotNull('proof_file_2');
             } else { // both : au moins une preuve fournie
-                $q->whereNotNull('proof_url')->orWhereNotNull('proof_file');
+                $q->whereNotNull('proof_url')->orWhereNotNull('proof_file')->orWhereNotNull('proof_file_2');
             }
         });
     }
@@ -120,6 +121,25 @@ class Nominee extends Model
     }
 
     /**
+     * URLs de tous les fichiers de preuve fournis (1 ou 2).
+     *
+     * @return array<int, string>
+     */
+    public function getProofFileUrlsAttribute(): array
+    {
+        return collect([$this->proof_file, $this->proof_file_2])
+            ->filter()
+            ->map(fn ($path) => url(Storage::url($path)))
+            ->values()
+            ->all();
+    }
+
+    public function hasProofFile(): bool
+    {
+        return filled($this->proof_file) || filled($this->proof_file_2);
+    }
+
+    /**
      * La preuve requise est-elle fournie pour cette catégorie ?
      */
     public function hasRequiredProof(Category $category): bool
@@ -130,8 +150,8 @@ class Nominee extends Model
 
         return match ($category->proof_type) {
             'url' => filled($this->proof_url),
-            'file' => filled($this->proof_file),
-            'both' => filled($this->proof_url) || filled($this->proof_file),
+            'file' => $this->hasProofFile(),
+            'both' => filled($this->proof_url) || $this->hasProofFile(),
             default => true,
         };
     }

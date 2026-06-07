@@ -76,14 +76,14 @@
                     @endif
 
                     <div class="mt-auto space-y-2 pt-4">
-                        @if($category->requires_proof && ($nominee->proof_url || $nominee->proof_file))
+                        @if($category->requires_proof && ($nominee->proof_url || $nominee->hasProofFile()))
                             <div class="flex flex-wrap gap-2">
                                 @if($nominee->proof_url)
                                     <a href="{{ $nominee->proof_url }}" target="_blank" rel="noopener" class="btn-secondary btn-sm flex-1">Voir la preuve</a>
                                 @endif
-                                @if($nominee->proof_file)
-                                    <a href="{{ $nominee->proof_file_url }}" target="_blank" rel="noopener" class="btn-secondary btn-sm flex-1">Télécharger</a>
-                                @endif
+                                @foreach($nominee->proof_file_urls as $i => $fileUrl)
+                                    <a href="{{ $fileUrl }}" target="_blank" rel="noopener" class="btn-secondary btn-sm flex-1">Télécharger{{ count($nominee->proof_file_urls) > 1 ? ' '.($i + 1) : '' }}</a>
+                                @endforeach
                             </div>
                         @endif
 

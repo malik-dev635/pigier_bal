@@ -34,10 +34,12 @@ class NomineeManager extends Component
     /** Uploads temporaires. */
     public $photo = null;
     public $proofFile = null;
+    public $proofFile2 = null;
 
     /** Chemins existants (mode édition). */
     public ?string $existingPhoto = null;
     public ?string $existingProofFile = null;
+    public ?string $existingProofFile2 = null;
 
     public function mount(): void
     {
@@ -56,7 +58,8 @@ class NomineeManager extends Component
 
         $isEntity = $category && $category->isEntity();
 
-        $rules = [
+        // Validation de format ; la présence de la preuve est vérifiée dans save().
+        return [
             'categoryId' => 'required|exists:categories,id',
             // Pour une entité (association/club), seul « Nom » (last_name) est requis.
             'first_name' => ($isEntity ? 'nullable' : 'required').'|string|max:255',
@@ -66,26 +69,26 @@ class NomineeManager extends Component
             'is_active' => 'boolean',
             'photo' => 'nullable|image|max:8192',
             'proofFile' => 'nullable|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx',
+            'proofFile2' => 'nullable|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx',
             'proof_url' => 'nullable|url|max:1000',
         ];
+    }
 
-        // Preuve obligatoire selon la configuration de la catégorie.
-        if ($category && $category->requires_proof) {
-            $hasFile = $this->proofFile || $this->existingProofFile;
-            $hasUrl = filled($this->proof_url);
-
-            if ($category->proof_type === 'url') {
-                $rules['proof_url'] = 'required|url|max:1000';
-            } elseif ($category->proof_type === 'file' && ! $hasFile) {
-                $rules['proofFile'] = 'required|file|max:20480|mimes:pdf,zip,png,jpg,jpeg,webp,doc,docx';
-            } elseif ($category->proof_type === 'both' && ! $hasFile && ! $hasUrl) {
-                // Au moins une des deux preuves.
-                $rules['proof_url'] = 'required_without:proofFile|nullable|url|max:1000';
-                $rules['proofFile'] = 'required_without:proof_url|nullable|file|max:20480';
-            }
+    protected function proofIsSatisfied(Category $category): bool
+    {
+        if (! $category->requires_proof) {
+            return true;
         }
 
-        return $rules;
+        $hasUrl = filled($this->proof_url);
+        $hasFile = $this->proofFile || $this->proofFile2 || $this->existingProofFile || $this->existingProofFile2;
+
+        return match ($category->proof_type) {
+            'url' => $hasUrl,
+            'file' => $hasFile,
+            'both' => $hasUrl || $hasFile,
+            default => true,
+        };
     }
 
     public function create(): void
@@ -112,14 +115,26 @@ class NomineeManager extends Component
         $this->is_votable = $nominee->is_votable;
         $this->existingPhoto = $nominee->photo;
         $this->existingProofFile = $nominee->proof_file;
+        $this->existingProofFile2 = $nominee->proof_file_2;
         $this->photo = null;
         $this->proofFile = null;
+        $this->proofFile2 = null;
         $this->showModal = true;
     }
 
     public function save(): void
     {
         $this->validate();
+
+        // Présence de la preuve requise (lien et/ou fichier(s)).
+        if ($this->category && ! $this->proofIsSatisfied($this->category)) {
+            $this->addError('proof', match ($this->category->proof_type) {
+                'url' => 'Veuillez fournir le lien de preuve.',
+                'file' => 'Veuillez joindre au moins un fichier de preuve.',
+                default => 'Veuillez fournir une preuve (lien et/ou fichier).',
+            });
+            return;
+        }
 
         $data = [
             'category_id' => $this->categoryId,
@@ -138,6 +153,10 @@ class NomineeManager extends Component
 
         if ($this->proofFile) {
             $data['proof_file'] = $this->proofFile->store('nominees/proofs', 'public');
+        }
+
+        if ($this->proofFile2) {
+            $data['proof_file_2'] = $this->proofFile2->store('nominees/proofs', 'public');
         }
 
         if ($this->editingId) {
@@ -178,8 +197,8 @@ class NomineeManager extends Component
     {
         $this->reset([
             'editingId', 'first_name', 'last_name', 'class', 'description',
-            'proof_url', 'is_active', 'is_votable', 'photo', 'proofFile',
-            'existingPhoto', 'existingProofFile',
+            'proof_url', 'is_active', 'is_votable', 'photo', 'proofFile', 'proofFile2',
+            'existingPhoto', 'existingProofFile', 'existingProofFile2',
         ]);
         $this->resetValidation();
     }

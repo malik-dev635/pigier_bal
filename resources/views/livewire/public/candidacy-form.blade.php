@@ -113,9 +113,18 @@
                         <div wire:loading wire:target="proofFile" class="field-hint">Chargement…</div>
                         @error('proofFile') <p class="field-error">{{ $message }}</p> @enderror
                     </div>
+                    <div>
+                        <label class="field-label">Second fichier <span class="font-normal text-muted">(facultatif)</span></label>
+                        <input type="file" wire:model="proofFile2" class="input py-2">
+                        <p class="field-hint">Un second fichier si besoin — 20 Mo maximum.</p>
+                        <div wire:loading wire:target="proofFile2" class="field-hint">Chargement…</div>
+                        @error('proofFile2') <p class="field-error">{{ $message }}</p> @enderror
+                    </div>
                 @endif
 
-                <button type="submit" class="btn-primary w-full" wire:loading.attr="disabled" wire:target="submit,photo,proofFile">
+                @error('proof') <p class="field-error">{{ $message }}</p> @enderror
+
+                <button type="submit" class="btn-primary w-full" wire:loading.attr="disabled" wire:target="submit,photo,proofFile,proofFile2">
                     Envoyer ma candidature
                 </button>
                 <p class="text-center text-xs text-muted">Votre candidature sera validée par l'organisation avant d'apparaître au vote.</p>

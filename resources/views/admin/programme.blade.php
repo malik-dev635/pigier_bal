@@ -182,14 +182,15 @@
                                         @endif
                                         @if($isWinner)<span class="winner-tag">{{ $winnerCount > 1 ? 'Gagnant ex æquo' : 'Gagnant' }}</span>@endif
                                     </div>
-                                    @if($nominee->description || $nominee->proof_url || $nominee->proof_file)
+                                    @if($nominee->description || $nominee->proof_url || $nominee->hasProofFile())
                                         <div class="row-sub">
                                             @if($nominee->description)<p class="desc">{{ $nominee->description }}</p>@endif
-                                            @if($nominee->proof_url || $nominee->proof_file)
+                                            @if($nominee->proof_url || $nominee->hasProofFile())
                                                 <p class="proof">Preuve :
                                                     @if($nominee->proof_url)<a href="{{ $nominee->proof_url }}" target="_blank" rel="noopener">{{ $nominee->proof_url }}</a>@endif
-                                                    @if($nominee->proof_url && $nominee->proof_file) &nbsp;·&nbsp; @endif
-                                                    @if($nominee->proof_file)<a href="{{ $nominee->proof_file_url }}" target="_blank" rel="noopener">Télécharger le fichier</a>@endif
+                                                    @foreach($nominee->proof_file_urls as $i => $fileUrl)
+                                                        @if($nominee->proof_url || ! $loop->first) &nbsp;·&nbsp; @endif<a href="{{ $fileUrl }}" target="_blank" rel="noopener">Fichier{{ count($nominee->proof_file_urls) > 1 ? ' '.($i + 1) : '' }}</a>
+                                                    @endforeach
                                                 </p>
                                             @endif
                                         </div>

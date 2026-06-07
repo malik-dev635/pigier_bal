@@ -121,6 +121,30 @@ class CandidacyTest extends TestCase
         $this->assertEquals('Club Robotique Pigier', $n->full_name, 'Le nom complet doit être le nom de l\'entité.');
     }
 
+    public function test_deux_fichiers_de_preuve_enregistres(): void
+    {
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $cat = Category::create([
+            'name' => 'Cat 2 Fichiers', 'voter_type' => 'eleve', 'is_active' => true,
+            'candidacy_open' => true, 'requires_proof' => true, 'proof_type' => 'file',
+        ]);
+
+        Livewire::test(CandidacyForm::class, ['token' => $cat->candidacy_token])
+            ->set('first_name', 'Deux')
+            ->set('last_name', 'Fichiers')
+            ->set('photo', \Illuminate\Http\UploadedFile::fake()->image('p.jpg'))
+            ->set('proofFile', \Illuminate\Http\UploadedFile::fake()->create('a.pdf', 100))
+            ->set('proofFile2', \Illuminate\Http\UploadedFile::fake()->create('b.pdf', 100))
+            ->call('submit')
+            ->assertHasNoErrors()
+            ->assertSet('submitted', true);
+
+        $n = Nominee::where('last_name', 'Fichiers')->first();
+        $this->assertNotNull($n->proof_file);
+        $this->assertNotNull($n->proof_file_2);
+        $this->assertCount(2, $n->proof_file_urls);
+    }
+
     public function test_soumission_bloquee_si_candidatures_fermees(): void
     {
         $cat = Category::create(['name' => 'Cat Fermee', 'voter_type' => 'eleve', 'is_active' => true, 'candidacy_open' => false]);
